@@ -1,9 +1,9 @@
 import express, { Application } from 'express';
-import "dotenv/config";
+import 'dotenv/config';
 import morgan from 'morgan';
 import bodyParser from 'body-parser';
 import { rootRouter } from './src/routes';
-import { createPool } from './src/db'
+import { createPool } from './src/db';
 
 createPool({
   maxConnections: 5,

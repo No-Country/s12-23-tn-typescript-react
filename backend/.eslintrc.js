@@ -3,6 +3,7 @@ module.exports = {
   extends: ["plugin:prettier/recommended", "prettier", "eslint:recommended"],
   plugins: ["@typescript-eslint"],
   parserOptions: {
+    tsconfigRootDir: __dirname,
     ecmaVersion: 2022,
     sourceType: "module",
     project: "tsconfig.json",
