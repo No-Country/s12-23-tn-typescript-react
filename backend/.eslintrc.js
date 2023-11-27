@@ -20,6 +20,4 @@ module.exports = {
     "no-multiple-empty-lines": "error",
     "prefer-const": "error",
   },
-  include: ["src/**/*.ts"],
-  exclude: ["node_modules"]
 };

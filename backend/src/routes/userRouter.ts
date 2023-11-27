@@ -1,6 +1,6 @@
 import express from 'express';
 import { HttpCodes } from '../utils';
-import { query } from '../db/index'
+import { query } from '../db/index';
 
 const userRouter = express.Router();
 
@@ -10,7 +10,7 @@ userRouter.route('/').get(async (req, res) => {
     const result = await query('SELECT 1 as columna');
     res.status(HttpCodes.CODE_SUCCESS).json({
       message: 'Users Page',
-      response: result.rows
+      response: result.rows,
     });
   } catch (error) {
     console.log(error);
