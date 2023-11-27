@@ -1,13 +1,22 @@
 import express, { Application } from 'express';
-import dotenv from 'dotenv';
+import "dotenv/config";
 import morgan from 'morgan';
 import bodyParser from 'body-parser';
 import { rootRouter } from './src/routes';
+import { createPool } from './src/db/db'
 
-//For env File
-dotenv.config();
+const db = createPool({
+  maxConnections: 5,
+  host: String(process.env.DB_HOST),
+  user: String(process.env.DB_USER),
+  password: String(process.env.DB_PASS),
+  database: String(process.env.DB_DATABASE),
+});
 
 const app: Application = express();
+
+app.set('db', db);
+
 const port = process.env.PORT || 8000;
 
 app.disable('x-powered-by');
