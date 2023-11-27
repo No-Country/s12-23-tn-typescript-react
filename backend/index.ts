@@ -3,9 +3,9 @@ import "dotenv/config";
 import morgan from 'morgan';
 import bodyParser from 'body-parser';
 import { rootRouter } from './src/routes';
-import { createPool } from './src/db/db'
+import { createPool } from './src/db'
 
-const db = createPool({
+createPool({
   maxConnections: 5,
   host: String(process.env.DB_HOST),
   user: String(process.env.DB_USER),
@@ -14,8 +14,6 @@ const db = createPool({
 });
 
 const app: Application = express();
-
-app.set('db', db);
 
 const port = process.env.PORT || 8000;
 
