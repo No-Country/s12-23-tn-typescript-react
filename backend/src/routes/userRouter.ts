@@ -3,6 +3,7 @@ import { HttpCodes } from '../utils';
 import { getSequelize } from '../config/db';
 // import User from '../models/user.model';
 import { validateJWT } from '../middlewares/authentication';
+import { RequestExtends } from '../interfaces/reqExtends.interface';
 
 const userRouter = express.Router();
 
@@ -23,7 +24,9 @@ userRouter.route('/').get(async (req, res) => {
   }
 });
 
-userRouter.route('/:id').get(validateJWT, async (req, res) => {
+userRouter.route('/:id').get(validateJWT, async (req: RequestExtends, res) => {
+  // Aca se puede observar el user
+  console.log(req.user);
   try {
     // const users = await User.findOne();
     const sequelize = getSequelize();
