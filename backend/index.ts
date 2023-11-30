@@ -3,6 +3,8 @@ import 'dotenv/config';
 import morgan from 'morgan';
 import bodyParser from 'body-parser';
 import { rootRouter } from './src/routes';
+import closeWithGrace from 'close-with-grace';
+import { getSequelize } from './src/config/db';
 
 const app: Application = express();
 
@@ -25,3 +27,12 @@ app.get('/', (req, res) => {
   res.redirect('/api');
 });
 app.use('/api', rootRouter);
+
+closeWithGrace({ delay: 500 }, async function ({ signal, err, manual }) {
+  console.log(signal, manual);
+  if (err) {
+    console.error(err);
+  }
+  await getSequelize().close();
+  console.log('Conexión a DB cerrada');
+});

@@ -13,16 +13,16 @@ const User = getSequelize().define(
       type: DataTypes.STRING,
       allowNull: false,
     },
+    contrasena: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
     email: {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
         isEmail: true,
       },
-    },
-    telefono: {
-      type: DataTypes.STRING,
-      allowNull: true,
     },
   },
   {
