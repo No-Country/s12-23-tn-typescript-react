@@ -15,7 +15,7 @@ export default function NavIcons() {
   ];
 
   return (
-    <aside className="h-[90vh] w-16  flex max-md:h-auto">
+    <aside className="h-[90vh] w-16  flex max-lg:h-auto">
       <nav className="bg-[#CFE0E5] h-full flex flex-col justify-between">
           <div className=" gap-[1px] flex flex-col">
             {links.map((link, index)=>(

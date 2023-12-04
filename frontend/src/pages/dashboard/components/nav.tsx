@@ -15,7 +15,7 @@ export default function NavAside() {
 
 
   return (
-    <aside className="h-[90vh] min-w-max  max-md:h-auto">
+    <aside className="h-[90vh] min-w-max  max-lg:h-auto ">
       <nav className="bg-[#CFE0E5] h-full flex flex-col justify-between">
         <div className={` gap-[1px] flex flex-col`}>
           {links.map((link, index)=>(
