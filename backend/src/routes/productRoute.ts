@@ -1,23 +1,23 @@
 import express from 'express';
-import { HttpCodes } from '../utils';
-
 import validationMiddleware from '../middlewares/validatorMiddeware';
 import productSchema from '../validations/products';
+import productController from '../controller/productController';
 
 const productRouter = express.Router();
 
-productRouter.route('/').post(validationMiddleware(productSchema), async (req, res) => {
-  try {
-    console.log('Todo validado correctamente');
-    res.status(HttpCodes.CODE_SUCCESS).json({
-      message: 'Todo validado correctamente',
-    });
-  } catch (error) {
-    console.log(error);
-    res.status(HttpCodes.CODE_INTERNAL_SERVER_ERROR).json({
-      message: 'Products Page Error',
-    });
-  }
-});
+// Ruta para crear un nuevo producto
+productRouter.route('/').post(validationMiddleware(productSchema), productController.createProduct);
+
+// Ruta para obtener todos los productos
+productRouter.route('/').get(productController.getAllProducts);
+
+// Ruta para obtener un producto por su ID
+productRouter.route('/:productId').get(productController.getProductById);
+
+// Ruta para actualizar un producto por su ID
+productRouter.route('/:productId').put(validationMiddleware(productSchema), productController.updateProduct);
+
+// Ruta para eliminar un producto por su ID
+productRouter.route('/:productId').delete(productController.deleteProduct);
 
 export default productRouter;

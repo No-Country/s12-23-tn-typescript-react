@@ -1,5 +1,7 @@
 import { DataTypes } from 'sequelize';
 import { getSequelize } from '../config/db';
+import Proveedor from './proveedor.model';
+import Categoria from './categoria.model';
 
 const Producto = getSequelize().define(
   'Producto',
@@ -41,6 +43,14 @@ const Producto = getSequelize().define(
     timestamps: false,
   },
 );
+
+Producto.belongsTo(Proveedor, {
+  foreignKey: 'proveedor_id',
+});
+
+Producto.belongsTo(Categoria, {
+  foreignKey: 'categoria_id',
+});
 
 Producto.sync({ alter: true });
 
