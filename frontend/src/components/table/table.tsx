@@ -1,46 +1,18 @@
+import TableBody from "./tableBody"
 
 function Table() {
   return (
-    <table>
+    <table className="table-auto w-full border-separate border-spacing-y-3 text-xs sm:text-base lg:text-xl">
       <thead>
         <tr>
-          <th>Nombre</th>
-          <th>Email</th>
-          <th>Teléfono</th>
-          <th>Dirección</th>
-          <th>Editar</th>
+          <th className="text-left pl-5 sm:pl-7 lg:pl-10">Nombre</th>
+          <th className="text-left">Email</th>
+          <th className="text-left">Teléfono</th>
+          <th className="text-left">Dirección</th>
+          <th className="text-center">Editar</th>
         </tr>
       </thead>
-      <tbody>
-        <tr>
-          <td>Nombre Apellido</td>
-          <td>Email@email.com</td>
-          <td>111-222-333</td>
-          <td>Dirección de su oficina 000</td>
-          <td>...</td>
-        </tr>
-        <tr>
-          <td>Nombre Apellido</td>
-          <td>Email@email.com</td>
-          <td>111-222-333</td>
-          <td>Dirección de su oficina 000</td>
-          <td>...</td>
-        </tr>
-        <tr>
-          <td>Nombre Apellido</td>
-          <td>Email@email.com</td>
-          <td>111-222-333</td>
-          <td>Dirección de su oficina 000</td>
-          <td>...</td>
-        </tr>
-        <tr>
-          <td>Nombre Apellido</td>
-          <td>Email@email.com</td>
-          <td>111-222-333</td>
-          <td>Dirección de su oficina 000</td>
-          <td>...</td>
-        </tr>
-      </tbody>
+      <TableBody />
     </table>
   )
 }
