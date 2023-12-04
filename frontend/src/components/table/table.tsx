@@ -6,9 +6,8 @@ function Table() {
       <thead>
         <tr>
           <th className="text-left pl-5 sm:pl-7 lg:pl-10">Nombre</th>
-          <th className="text-left">Email</th>
-          <th className="text-left">Teléfono</th>
           <th className="text-left">Dirección</th>
+          <th className="text-left">Teléfono</th>
           <th className="text-center">Editar</th>
         </tr>
       </thead>

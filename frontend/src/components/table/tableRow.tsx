@@ -12,9 +12,9 @@ function TableRow() {
           </div>
         </div>
       </td>
-      <td>Email@email.com</td>
-      <td>111-222-333</td>
       <td>Dirección de su oficina 000</td>
+      <td>111-222-333</td>
+      {/* <td>Email@email.com</td> */}
       <td>
         <div className="flex justify-center items-center gap-[2px] sm:gap-[6px] lg:gap-[10px]">
           <TbEdit className="cursor-pointer text-lg sm:text-xl lg:text-2xl"/>
