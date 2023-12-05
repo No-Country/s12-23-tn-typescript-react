@@ -1,4 +1,3 @@
-import React from 'react'
 import MenuContent from '../../components/header/menuContent'
 
 export default function Users() {
