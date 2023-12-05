@@ -18,10 +18,10 @@ const insertSupplier = async (bodySupplier: CreateSuppliertDto): Promise<IProved
   return supplier;
 };
 
-const getByIdSupplier = async (proveedor_id: number): Promise<IProvedor | string> => {
-  console.log('Tipo:', typeof proveedor_id);
-  console.log(proveedor_id);
-  const supplier = await Proveedor.findOne({ where: { proveedor_id: proveedor_id } });
+const getByIdSupplier = async (id: number): Promise<IProvedor | string> => {
+  console.log('Tipo:', typeof id);
+  console.log(id);
+  const supplier = await Proveedor.findOne({ where: { id: id } });
   if (!supplier) {
     return 'No se encuentra Id';
   }

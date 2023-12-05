@@ -2,13 +2,12 @@ import { DataTypes, Model } from 'sequelize';
 import { getSequelize } from '../config/db';
 import { SuppliersInterfaces } from '../interfaces/suppliers.interfaces';
 
-// eslint-disable-next-line prettier/prettier
-export interface IProvedor extends Model, Omit<SuppliersInterfaces, "id"> { }
+export interface IProvedor extends Model, Omit<SuppliersInterfaces, 'id'> { }
 
 const Proveedor = getSequelize().define<IProvedor>(
   'Proveedor',
   {
-    proveedor_id: {
+    id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,

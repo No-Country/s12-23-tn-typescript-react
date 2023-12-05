@@ -5,7 +5,7 @@ const supplierRouter = Router();
 
 supplierRouter.get('/', getSuppliers);
 supplierRouter.post('/', postSupplier);
-supplierRouter.get('/:proveedor_id', getSuuplierById);
-supplierRouter.put('/:proveedor_id', postSupplier);
+supplierRouter.get('/:id', getSuuplierById);
+supplierRouter.put('/:id', postSupplier);
 
 export { supplierRouter };
