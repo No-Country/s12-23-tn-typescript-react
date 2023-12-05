@@ -32,9 +32,9 @@ const getSuuplierById = async (req: Request, res: Response) => {
 
 const updateSupplier = async (req: Request, res: Response) => {
   try {
-    const { proveedor_id } = req.params;
+    const { id } = req.params;
     const { nombre, direccion, telefono } = req.body;
-    const supplier = await updateByIdSupplier(parseInt(proveedor_id), { nombre, direccion, telefono });
+    const supplier = await updateByIdSupplier(parseInt(id), { nombre, direccion, telefono });
     res.status(200).json(supplier);
   } catch (error) {
     console.error(error);
