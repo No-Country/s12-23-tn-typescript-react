@@ -15,7 +15,7 @@ export default function NavAside() {
 
 
   return (
-    <aside className="h-[90vh] min-w-max  max-md:h-auto">
+    <aside className="h-[90vh] min-w-max  max-lg:h-auto ">
       <nav className="bg-[#CFE0E5] h-full flex flex-col justify-between">
         <div className={` gap-[1px] flex flex-col`}>
           {links.map((link, index)=>(
@@ -25,7 +25,7 @@ export default function NavAside() {
           ))
           }
         </div>
-          <p className=" transition-all duration-300 h-16 text-sm cursor-pointer hover:brightness-150 px-4 text-[#344D64] font-bold border-2 border-[#344D64] flex items-center justify-left gap-2"><IoExitOutline className=" rotate-180 text-2xl"/>Salir</p>
+          <Link to={"/"} className=" transition-all duration-300 h-16 text-sm cursor-pointer hover:brightness-150 px-4 text-[#344D64] font-bold border-2 border-[#344D64] flex items-center justify-left gap-2"><IoExitOutline className=" rotate-180 text-2xl"/>Salir</Link>
       </nav>
     </aside>  
   )
