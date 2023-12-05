@@ -1,6 +1,6 @@
-import MenuContent from '../dashboard/components/MenuContent'
 import Table from '../../components/table/table'
 import ManageClient from '../../components/manageClient'
+import MenuContent from '../../components/header/menuContent'
 
 export default function Clients() {
 

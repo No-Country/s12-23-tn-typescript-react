@@ -1,4 +1,4 @@
-import MenuContent from "./components/MenuContent";
+import MenuContent from "../../components/header/menuContent";
 
 export default function Dashboard() {
 

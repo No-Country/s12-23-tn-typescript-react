@@ -25,7 +25,7 @@ export default function NavAside() {
           ))
           }
         </div>
-          <p className=" transition-all duration-300 h-16 text-sm cursor-pointer hover:brightness-150 px-4 text-[#344D64] font-bold border-2 border-[#344D64] flex items-center justify-left gap-2"><IoExitOutline className=" rotate-180 text-2xl"/>Salir</p>
+          <Link to={"/"} className=" transition-all duration-300 h-16 text-sm cursor-pointer hover:brightness-150 px-4 text-[#344D64] font-bold border-2 border-[#344D64] flex items-center justify-left gap-2"><IoExitOutline className=" rotate-180 text-2xl"/>Salir</Link>
       </nav>
     </aside>  
   )

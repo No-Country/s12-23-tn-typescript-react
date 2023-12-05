@@ -2,7 +2,7 @@ import TableBody from "./tableBody"
 
 function Table() {
   return (
-    <table className="table-auto w-full border-separate border-spacing-y-3 text-xs sm:text-base lg:text-xl">
+    <table className="border-2 p-4 table-auto w-full border-separate border-spacing-y-3 text-xs sm:text-base lg:text-xl">
       <thead>
         <tr>
           <th className="text-left pl-5 sm:pl-7 lg:pl-10">Nombre</th>
