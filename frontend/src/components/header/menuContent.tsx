@@ -2,6 +2,7 @@ import { useState } from "react"
 import Header from "./header"
 import NavIcons from "./navIcons"
 import NavAside from "./nav"
+import React from "react"
 
 
 export default function MenuContent({children}:any) {
@@ -16,11 +17,11 @@ export default function MenuContent({children}:any) {
     <>
     <main className=''>
       <Header stateNav={stateNav}/>
-      <div className="w-auto flex">
-        {openNav
-        ?<NavAside/>
-        :<NavIcons/>
-        }
+      <div className="w-auto flex ">
+          {openNav
+          ?<NavAside/>
+          :<NavIcons/>
+          }
         {
           children
         }
