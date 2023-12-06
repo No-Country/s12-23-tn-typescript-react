@@ -3,6 +3,7 @@ import { getSequelize } from "../config/db";
 import { MovementsInterface } from "../interfaces/movements.interface";
 
 export interface IMovements extends Model, Omit<MovementsInterface, "id"> {
+  setClient(arg0: number): unknown;
   addClient(ClientId: any): unknown;
 }
 
