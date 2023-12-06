@@ -8,6 +8,7 @@ export const getSequelize = () => {
     sequelize = new Sequelize(String(process.env.DB_DATABASE), String(process.env.DB_USER), String(process.env.DB_PASS), {
       host: String(process.env.DB_HOST),
       dialect: 'postgres',
+      logging: false,
     });
   }
   return sequelize;

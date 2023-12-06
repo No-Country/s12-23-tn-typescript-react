@@ -13,7 +13,7 @@ const FacturaProveedor = getSequelize().define(
       type: DataTypes.INTEGER,
       references: {
         model: 'proveedor',
-        key: 'proveedor_id',
+        key: 'id',
       },
     },
     fecha_emision: {
