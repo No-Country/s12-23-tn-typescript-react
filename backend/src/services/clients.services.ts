@@ -19,8 +19,6 @@ const insertClient = async (bodySupplier: CreateClienttDto): Promise<IClient> =>
 };
 
 const getByIdClient = async (id: number): Promise<IClient | string> => {
-  console.log('Tipo:', typeof id);
-  console.log(id);
   const supplier = await Client.findOne({ where: { id: id } });
   if (!supplier) {
     return 'No se encuentra Id';

@@ -42,6 +42,4 @@ const Producto = getSequelize().define(
   },
 );
 
-Producto.sync({ alter: true });
-
 export default Producto;

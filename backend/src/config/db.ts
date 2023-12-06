@@ -10,6 +10,7 @@ export const getSequelize = () => {
       dialect: 'postgres',
       logging: false,
     });
+    sequelize.sync({ alter: true })
   }
   return sequelize;
 };
