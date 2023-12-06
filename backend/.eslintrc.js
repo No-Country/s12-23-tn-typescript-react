@@ -21,6 +21,5 @@ module.exports = {
     "no-multiple-empty-lines": "error",
     "prefer-const": "error",
     "object-curly-spacing": ["error", "always"],
-    "endOfLine": 0
   },
 };

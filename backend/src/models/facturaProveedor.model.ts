@@ -31,6 +31,4 @@ const FacturaProveedor = getSequelize().define(
   },
 );
 
-FacturaProveedor.sync({ alter: true });
-
 export default FacturaProveedor;

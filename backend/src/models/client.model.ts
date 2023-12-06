@@ -1,6 +1,7 @@
 import { DataTypes, Model } from "sequelize";
 import { getSequelize } from "../config/db";
 import { ClientInterface } from "../interfaces/client.interface";
+import { Movement } from "./movements.model";
 
 export interface IClient extends Model, Omit<ClientInterface, "id"> { }
 
@@ -29,6 +30,7 @@ const Client = getSequelize().define<IClient>('Client',
   }
 )
 
-Client.sync({ force: true })
+Client.hasMany(Movement)
+Movement.belongsTo(Client)
 
 export { Client }

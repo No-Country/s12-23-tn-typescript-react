@@ -29,6 +29,5 @@ const Proveedor = getSequelize().define<IProvedor>(
   },
 );
 
-Proveedor.sync({ alter: true });
 
 export default Proveedor;
