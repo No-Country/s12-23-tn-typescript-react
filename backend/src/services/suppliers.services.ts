@@ -2,6 +2,7 @@ import { CreateSuppliertDto } from '../dto/createSupplier.dto';
 import { UpdateSuppliertDto } from '../dto/updateSupplier.dto';
 import Proveedor, { IProvedor } from '../models/proveedor.model';
 
+
 const findAllSuppliers = async (): Promise<IProvedor[]> => {
   const suppliers = await Proveedor.findAll();
   return suppliers;
@@ -9,6 +10,8 @@ const findAllSuppliers = async (): Promise<IProvedor[]> => {
 
 const insertSupplier = async (bodySupplier: CreateSuppliertDto): Promise<IProvedor> => {
   const { nombre, direccion, telefono } = bodySupplier;
+  
+
   const supplier = await Proveedor.create({
     nombre,
     direccion,

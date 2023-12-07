@@ -1,5 +1,10 @@
 import { Request, Response } from 'express';
 import { deleteByIdSupplier, findAllSuppliers, getByIdSupplier, insertSupplier, updateByIdSupplier } from '../services/suppliers.services';
+import supplierSchema from '../validations/supplier';
+
+
+
+
 
 const getSuppliers = async (req: Request, res: Response) => {
   try {
@@ -12,8 +17,17 @@ const getSuppliers = async (req: Request, res: Response) => {
 
 const postSupplier = async (req: Request, res: Response) => {
   try {
-    const bodySupplier = req.body;
-    const supplier = await insertSupplier(bodySupplier);
+    const bodySupplier = req.body;    
+    // validate the user
+    const { error } = await supplierSchema.validate(bodySupplier);
+    console.log(error);
+    console.log(bodySupplier);
+    if (error) {
+      console.log("entre");
+      return res.status(400).json({ error: error.details[0].message });
+    }
+
+    const supplier = await insertSupplier(bodySupplier); 
     res.status(201).json(supplier);
   } catch (error) {
     console.error(error);
