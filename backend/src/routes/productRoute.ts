@@ -1,23 +1,12 @@
-import express from 'express';
-import { HttpCodes } from '../utils';
+import { Router } from 'express';
+import { getProducts, postProduct, getProductById, updateProduct, deleteproduct } from '../controller/product.controllers';
 
-import validationMiddleware from '../middlewares/validatorMiddeware';
-import productSchema from '../validations/products';
+const productRouter = Router();
 
-const productRouter = express.Router();
-
-productRouter.route('/').post(validationMiddleware(productSchema), async (req, res) => {
-  try {
-    console.log('Todo validado correctamente');
-    res.status(HttpCodes.CODE_SUCCESS).json({
-      message: 'Todo validado correctamente',
-    });
-  } catch (error) {
-    console.log(error);
-    res.status(HttpCodes.CODE_INTERNAL_SERVER_ERROR).json({
-      message: 'Products Page Error',
-    });
-  }
-});
+productRouter.get('/', getProducts);
+productRouter.post('/', postProduct);
+productRouter.get('/:id', getProductById);
+productRouter.put('/:id', updateProduct);
+productRouter.delete('/:id', deleteproduct)
 
 export default productRouter;

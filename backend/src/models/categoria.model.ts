@@ -20,6 +20,4 @@ const Categoria = getSequelize().define(
   },
 );
 
-Categoria.sync({ alter: true });
-
 export default Categoria;
