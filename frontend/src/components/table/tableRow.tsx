@@ -59,7 +59,7 @@ function TableRow({ data }: TableRowProps) {
             <label htmlFor="">Teléfono</label>
             <input type="tel" className="outline-1 outline rounded-lg text-black font-medium px-2 py-1"/>
           </div>
-          <input type="submit" value="Agregar" className="bg-[#354762] py-1 rounded-lg" />
+          <input type="submit" value="Agregar" className="bg-[#354762] py-1 rounded-lg cursor-pointer" />
         </form>
       </Modal>
     </>
