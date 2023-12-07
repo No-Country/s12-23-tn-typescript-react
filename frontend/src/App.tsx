@@ -6,6 +6,7 @@ import Clients from './pages/clients/clients'
 import Provider from './pages/providers/provider'
 import Products from './pages/products/products'
 import Users from './pages/users/users'
+import { Toaster } from 'sonner'
 
 function App() {
 
@@ -19,6 +20,7 @@ function App() {
         <Route path='/products' element={<Products/>}></Route>
         <Route path='/users' element={<Users></Users>}></Route>
       </Routes>
+      <Toaster richColors></Toaster>
     </>
   )
 }

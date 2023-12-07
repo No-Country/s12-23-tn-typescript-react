@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { Product } from "../../interface/interface"
+import { toast } from "sonner"
 
 export default function FormProduct() {
   const [dataProduct, setDataProduct] = useState<Product>({
@@ -12,7 +13,11 @@ export default function FormProduct() {
 
   const createProduct = (e: React.FormEvent) =>{
     e.preventDefault()
-    console.log(dataProduct)
+    if(dataProduct.name == "" || dataProduct.price == 0 || dataProduct.provider == "" || dataProduct.stock == 0){
+      toast.warning("Ingresar datos faltantes")
+    }else{
+      toast.success("El productos sera creado")
+    }
   }
 
   const updateName = (value: React.ChangeEvent<HTMLInputElement>) => {
