@@ -1,7 +1,10 @@
-import { DataTypes } from 'sequelize';
+import { DataTypes, Model } from 'sequelize';
 import { getSequelize } from '../config/db';
+import { ProductInterfaces } from '../interfaces/product.interface';
 
-const Producto = getSequelize().define(
+export interface IProduct extends Model, Omit<ProductInterfaces, 'producto_id'> { }
+
+const Product = getSequelize().define<IProduct>(
   'Producto',
   {
     producto_id: {
@@ -42,4 +45,4 @@ const Producto = getSequelize().define(
   },
 );
 
-export default Producto;
+export default Product;
