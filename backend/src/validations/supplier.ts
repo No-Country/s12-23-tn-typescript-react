@@ -7,4 +7,8 @@ const supplierSchema = Joi.object({
   
 });
 
-export default supplierSchema;
+const supplierIdSchema = Joi.object({
+  id: Joi.number().positive().min(1).required()
+});
+
+export { supplierSchema, supplierIdSchema };
