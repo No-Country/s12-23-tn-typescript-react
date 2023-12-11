@@ -9,6 +9,7 @@ const findAllSuppliers = async (): Promise<IProvedor[]> => {
 
 const insertSupplier = async (bodySupplier: CreateSuppliertDto): Promise<IProvedor> => {
   const { nombre, direccion, telefono } = bodySupplier;
+
   const supplier = await Proveedor.create({
     nombre,
     direccion,
@@ -23,17 +24,19 @@ const getByIdSupplier = async (id: number): Promise<IProvedor | string> => {
   console.log(id);
   const supplier = await Proveedor.findOne({ where: { id: id } });
   if (!supplier) {
-    return 'No se encuentra Id';
+    return 'Supplier id not found.';
   }
   return supplier;
 };
 
 const updateByIdSupplier = async (id: number, bodySupplier: UpdateSuppliertDto): Promise<IProvedor | string> => {
   const { nombre, direccion, telefono } = bodySupplier;
+
   const findSupplier = await Proveedor.findOne({ where: { id: id } });
   if (!findSupplier) {
-    return 'No se encuentra Id';
+    return 'Supplier id not found.';
   }
+
   const supplier = await Proveedor.update(
     {
       nombre,
@@ -44,13 +47,13 @@ const updateByIdSupplier = async (id: number, bodySupplier: UpdateSuppliertDto):
   );
 
   if (!supplier) {
-    return 'No se pudo actualizar';
+    return 'Could not update supplier';
   }
 
   const updateSupplier = await Proveedor.findOne({ where: { id: id } });
 
   if (!updateSupplier) {
-    return 'No se pudo actualizar';
+    return 'Could not update supplier after update';
   }
 
   return updateSupplier;
@@ -59,13 +62,13 @@ const updateByIdSupplier = async (id: number, bodySupplier: UpdateSuppliertDto):
 const deleteByIdSupplier = async (id: number): Promise<string> => {
   const findSupplier = await Proveedor.findOne({ where: { id: id } });
   if (!findSupplier) {
-    return 'No se encuentra Id';
+    return 'Supplier not found.';
   }
   const removeSupplier = await Proveedor.destroy({ where: { id: id } });
   if (!removeSupplier) {
-    return 'No se pudo eliminar';
+    return 'Could not delete supplier';
   }
-  return 'Eliminado';
+  return 'successfully removed';
 };
 
 export { findAllSuppliers, insertSupplier, getByIdSupplier, updateByIdSupplier, deleteByIdSupplier };
