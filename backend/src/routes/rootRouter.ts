@@ -6,6 +6,7 @@ import { clientRouter } from './client.routes';
 import { movementRouter } from './movement.routes';
 import categoryRouter from './category.routes';
 
+
 const rootRouter = express();
 const server = express.Router();
 

@@ -27,9 +27,9 @@ const User = getSequelize().define(
   },
   {
     // Otras opciones del modelo
+    timestamps: false
   },
 );
 
-User.sync({ alter: true });
 
 export default User;

@@ -25,7 +25,7 @@ const Producto = getSequelize().define(
       type: DataTypes.INTEGER,
       references: {
         model: 'Proveedor',
-        key: 'proveedor_id',
+        key: 'id',
       },
     },
     categoria_id: {
@@ -41,7 +41,5 @@ const Producto = getSequelize().define(
     timestamps: false,
   },
 );
-
-Producto.sync({ alter: true });
 
 export default Producto;
