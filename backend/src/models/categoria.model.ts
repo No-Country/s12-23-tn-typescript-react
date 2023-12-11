@@ -1,5 +1,8 @@
-import { DataTypes } from 'sequelize';
+import { DataTypes, Model } from 'sequelize';
 import { getSequelize } from '../config/db';
+import { CategoryInterfaces } from '../interfaces/category.interface';
+
+export interface ICategory extends Model, Omit<CategoryInterfaces, 'categoria_id'> { }
 
 const Categoria = getSequelize().define(
   'Categoria',
