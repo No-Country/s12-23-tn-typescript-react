@@ -1,10 +1,10 @@
 import { Link, Navigate } from "react-router-dom";
-import logo from "../../../public/img-login.svg";
+import logo from "/img-login.svg";
 import { MdOutlineMailOutline } from "react-icons/md";
 import { BiShow } from "react-icons/bi";
 import { AiOutlineEyeInvisible } from "react-icons/ai";
 import { Toaster, toast } from "sonner";
-import {  useState } from "react";
+import { useState } from "react";
 
 interface IFormLogin {
   email: string;
@@ -72,8 +72,8 @@ export default function Login() {
   };
 
   return (
-    <main className="w-[768px] min-h-screen m-auto bg-third lg:w-screen lg:flex lg:flex-col lg:justify-center">
-      <h1 className="h-[100px]  font-poppins  grid place-content-center text-5xl text-text_white  bg-primary">
+    <main className="min-h-screen m-auto bg-third lg:w-screen lg:flex lg:flex-col lg:justify-center">
+      <h1 className="h-[100px] font-poppins grid place-content-center text-5xl text-text_white bg-primary">
         DrinkVentory
       </h1>
 
