@@ -5,6 +5,7 @@ import { supplierRouter } from './supplier.routes';
 import { clientRouter } from './client.routes';
 import { movementRouter } from './movement.routes';
 import categoryRouter from './category.routes';
+import { movementDetailRouter } from './movement.detail.routes';
 
 
 const rootRouter = express();
@@ -23,5 +24,6 @@ rootRouter.use('/category', categoryRouter);
 rootRouter.use('/supplier', supplierRouter);
 rootRouter.use('/clients', clientRouter)
 rootRouter.use('/movements', movementRouter)
+rootRouter.use('/movement-detail', movementDetailRouter)
 
 export default rootRouter;
