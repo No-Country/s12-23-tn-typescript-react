@@ -16,7 +16,7 @@ export default function ManageProducts({createProduct}:any) {
             <input
               className='outline-none py-1 '
               type="text"
-              placeholder='Buscar cliente'
+              placeholder='Buscar Producto'
             />
             <div className=''>
               <TbSearch className='text-gray-800 text-xl' />

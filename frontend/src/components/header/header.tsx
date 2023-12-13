@@ -8,7 +8,7 @@ export default function Header({stateNav}:any) {
         <button onClick={stateNav}>
           <GiHamburgerMenu className="text-3xl cursor-pointer"/>
         </button>
-        <h1 className='text-3xl'>DrinkVentry</h1>
+        <h1 className='text-3xl'>DrinkVentory</h1>
       </div>
       <div className="flex items-center justify-center">
         <p className='text-xl font-semibold'>Mi Perfil

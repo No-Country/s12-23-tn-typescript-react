@@ -1,59 +1,39 @@
-import { useState } from 'react';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
 import { MdKeyboardDoubleArrowLeft, MdKeyboardDoubleArrowRight } from 'react-icons/md';
-import { TbEdit, TbTrash } from 'react-icons/tb';
-
-const bebidas = [
-  {
-    "nombre": "Coca Cola 2L",
-    "precio": "$5.00",
-    "cantidad": 100,
-    "categoria": "Gaseosas"
-  },
-  {
-    "nombre": "Agua Mineral 500ml",
-    "precio": "$2.00",
-    "cantidad": 150,
-    "categoria": "Aguas"
-  },
-  {
-    "nombre": "Jugo de Naranja 1L",
-    "precio": "$4.00",
-    "cantidad": 80,
-    "categoria": "Jugos"
-  },
-  {
-    "nombre": "Sprite 2L",
-    "precio": "$4.50",
-    "cantidad": 120,
-    "categoria": "Gaseosas"
-  },
-  {
-    "nombre": "Agua con Gas 750ml",
-    "precio": "$3.00",
-    "cantidad": 90,
-    "categoria": "Aguas"
-  },
-  {
-    "nombre": "Cerveza Artesanal 330ml",
-    "precio": "$6.00",
-    "cantidad": 40,
-    "categoria": "Cervezas"
-  },
-  {
-    "nombre": "Limonada 1L",
-    "precio": "$4.00",
-    "cantidad": 70,
-    "categoria": "Jugos"
-  },
-]
+import { DataProduct } from '../../interface/interface';
+import { TableRowProduct } from './tableRowProduct';
+import React from 'react';
+import { ModalDelete } from '../../ui/modalDelete';
+import { toast } from 'sonner';
+import { ModalEditProduct } from '../../ui/modalEditProduct';
 
 export default function TableProduct() {
-
+  const [products, setProducts] = useState<DataProduct[]>([])
   const [currentPage, setCurrentPage] = useState(1);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editModalOpen, setEditsModalOpen] = useState(false);
+  const [idProduct, setIdProduct] = useState<number>(1)
+  const API_PRODUCTS = "https://inventario-nocontry-s12-23.onrender.com/api/products"
+
+  useEffect(()=>{
+    fetchDataProducts()
+  },[])
+
+  const fetchDataProducts = async () =>{
+    try{
+      const response = await axios.get(API_PRODUCTS)
+      setProducts(response.data)
+    }catch{
+      console.log("error")
+    }
+  }
+
+  /* CALCULO PARA LAS TABLAS */
   const productosPorPagina = 5;
   const inicio = (currentPage - 1) * productosPorPagina;
   const fin = currentPage * productosPorPagina;
-  const totalPaginas = Math.ceil(bebidas.length / productosPorPagina);
+  const totalPaginas = Math.ceil(products.length / productosPorPagina);
 
   const beforeProduct = () =>{
     if(currentPage <= 1 ){
@@ -63,16 +43,46 @@ export default function TableProduct() {
     }
 
   }
-
   const nextProduct = () =>{
     if (currentPage < totalPaginas) {
       setCurrentPage(currentPage + 1);
     }
   }
 
+  const deletePost = async () =>{
+    try{
+      await axios.delete(`https://inventario-nocontry-s12-23.onrender.com/api/products/${idProduct}`)
+      toast.success("El producto fue borrado con exito")
+      setIsModalOpen(false)
+
+      fetchDataProducts()
+    }catch{
+      toast.warning("Sucedio un error vuelve a intentarlo")
+    }
+  }
+
+  const closeModal = () =>{
+    setIsModalOpen(false)
+  }
+
+  const openModal = (productId: number) =>{ 
+    setIsModalOpen(true);
+    setIdProduct(productId)
+  }  
+  const openModalEdit = async (productId: number) =>{
+    setIdProduct(productId)
+
+    setEditsModalOpen(true);
+  }
+
+  const closeModalEdit = () =>{
+    setEditsModalOpen(false)
+  }
+
+  
   return (
     <>
-    <table className="table-auto border-2 px-4 w-full border-separate border-spacing-y-3 text-xs sm:text-base lg:text-xl">
+    <table className="border-2 px-4 w-full border-separate border-spacing-y-3 text-xs sm:text-base lg:text-xl">
       <thead>
         <tr>
           <th className="text-left">Nombre</th>
@@ -84,16 +94,19 @@ export default function TableProduct() {
         </tr>
       </thead>
       <tbody className="divide-y-8">
-          {bebidas.slice(inicio,fin).map((bebida, index)=>(
-          <tr className='border-2 text-base' key={index}>
-              <td className='text-left'>{bebida.nombre}</td>
-              <td className='text-left'>{bebida.precio}</td>
-              <td className='text-left'>{bebida.cantidad}</td>
-              <td className='text-left'>{bebida.categoria}</td>
-              <td ><p className='flex justify-center items-center'><TbEdit/></p></td>
-              <td><p className='flex justify-center items-center'><TbTrash/></p></td>
-          </tr>
-            ))     
+        {products.slice(inicio,fin).map((bebida, index)=>(
+          <React.Fragment key={index}>
+            <TableRowProduct 
+            nombre={bebida.nombre} 
+            precio={bebida.precio} 
+            stock={bebida.stock} 
+            categoria_id={bebida.categoria_id}
+            producto_id={bebida.producto_id}
+            openModalDelete={openModal}
+            openModalEdit={openModalEdit}
+            />
+          </React.Fragment>
+          ))     
         }
         </tbody>  
     </table> 
@@ -110,6 +123,13 @@ export default function TableProduct() {
         ))}
       <MdKeyboardDoubleArrowRight className="cursor-pointer" onClick={nextProduct}/>
     </div>
+    <ModalDelete deletePost={deletePost} stateModal={isModalOpen} closeModal={closeModal}></ModalDelete>
+    <ModalEditProduct 
+    idProduct={idProduct} 
+    stateEditModal={editModalOpen} 
+    closeModal={closeModalEdit} 
+    />
     </>
   )
 }
+

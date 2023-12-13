@@ -1,4 +1,4 @@
-import { Link, Navigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import logo from "../../../public/img-login.svg";
 import { MdOutlineMailOutline } from "react-icons/md";
 import { BiShow } from "react-icons/bi";
