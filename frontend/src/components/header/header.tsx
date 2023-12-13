@@ -1,4 +1,5 @@
 import { GiHamburgerMenu } from "react-icons/gi";
+import { Link } from "react-router-dom";
 
 export default function Header({stateNav}:any) {
   return (
@@ -8,7 +9,9 @@ export default function Header({stateNav}:any) {
         <button onClick={stateNav}>
           <GiHamburgerMenu className="text-3xl cursor-pointer"/>
         </button>
-        <h1 className='text-3xl'>DrinkVentory</h1>
+        <Link to={"/home"}>
+          <h1 className='text-3xl'>DrinkVentory</h1>
+        </Link>
       </div>
       <div className="flex items-center justify-center">
         <p className='text-xl font-semibold'>Mi Perfil

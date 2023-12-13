@@ -7,6 +7,7 @@ import React from 'react';
 import { ModalDelete } from '../../ui/modalDelete';
 import { toast } from 'sonner';
 import { ModalEditProduct } from '../../ui/modalEditProduct';
+import { fetchDataProducts } from '../../services/fetchData';
 
 export default function TableProduct() {
   const [products, setProducts] = useState<DataProduct[]>([])
@@ -14,20 +15,15 @@ export default function TableProduct() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editModalOpen, setEditsModalOpen] = useState(false);
   const [idProduct, setIdProduct] = useState<number>(1)
-  const API_PRODUCTS = "https://inventario-nocontry-s12-23.onrender.com/api/products"
 
   useEffect(()=>{
-    fetchDataProducts()
+    fetchProduct()
   },[])
 
-  const fetchDataProducts = async () =>{
-    try{
-      const response = await axios.get(API_PRODUCTS)
-      setProducts(response.data)
-    }catch{
-      console.log("error")
-    }
-  }
+  const fetchProduct = async () =>{
+    const res = await fetchDataProducts()
+    setProducts(res)
+  } 
 
   /* CALCULO PARA LAS TABLAS */
   const productosPorPagina = 5;
@@ -55,7 +51,7 @@ export default function TableProduct() {
       toast.success("El producto fue borrado con exito")
       setIsModalOpen(false)
 
-      fetchDataProducts()
+      fetchProduct()
     }catch{
       toast.warning("Sucedio un error vuelve a intentarlo")
     }
@@ -76,6 +72,11 @@ export default function TableProduct() {
   }
 
   const closeModalEdit = () =>{
+    setEditsModalOpen(false)
+  }
+
+  const updateTable = () =>{
+    fetchProduct()
     setEditsModalOpen(false)
   }
 
@@ -128,6 +129,7 @@ export default function TableProduct() {
     idProduct={idProduct} 
     stateEditModal={editModalOpen} 
     closeModal={closeModalEdit} 
+    updateTable={updateTable}
     />
     </>
   )

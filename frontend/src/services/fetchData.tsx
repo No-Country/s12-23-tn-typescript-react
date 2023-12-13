@@ -1,6 +1,10 @@
 import axios from "axios"
 import { Product } from "../interface/interface"
+const API_ALL_PRODUCTS = "https://inventario-nocontry-s12-23.onrender.com/api/products"
+const API_ALL_CLIENTS = "https://inventario-nocontry-s12-23.onrender.com/api/clients"
+const API_ALL_SUPPLIER = "https://inventario-nocontry-s12-23.onrender.com/api/supplier"
 
+/* FUNCIONALIDADES DE LOS PRODUCTOS*/
 export const registerProduct = async (dataProduct: Product) =>{
   const API_PRODUCTS = "https://inventario-nocontry-s12-23.onrender.com/api/products"
   try{
@@ -23,5 +27,32 @@ export const fetchProductOnly = async (idProduct: number) =>{
     return res.data
   } catch (error) {
     console.error("Error fetching product:", error);
+  }
+}
+
+export const fetchDataProducts = async () =>{
+  try{
+    const response = await axios.get(API_ALL_PRODUCTS)
+    return response.data
+  }catch{
+    console.log("error")
+  }
+}
+
+export const fetchDataClients = async () =>{
+  try{
+    const response = await axios.get(API_ALL_CLIENTS)
+    return response.data
+  }catch{
+    console.log("error")
+  }
+}
+
+export const fetchDataSupplier = async () =>{
+  try{
+    const response = await axios.get(API_ALL_SUPPLIER)
+    return response.data
+  }catch{
+    console.log("error")
   }
 }

@@ -29,4 +29,5 @@ export interface EditModal {
   stateEditModal: boolean
   idProduct: number
   closeModal: () => void
+  updateTable: () => void
 }
