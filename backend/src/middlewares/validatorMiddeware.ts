@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 
-function validationMiddleware(schema: any, isParam: boolean) {
+function validationMiddleware(schema: any, isParam?: boolean) {
   return (req: Request, res: Response, next: NextFunction) => {
     let validationResult;
     isParam ? validationResult = schema.validate(req.params) : 
