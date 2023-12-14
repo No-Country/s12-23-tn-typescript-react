@@ -72,7 +72,7 @@ export default function Login() {
   };
 
   return (
-    <main className="max-w-screen-2xl m-auto lg:flex lg:flex-col lg:justify-center  min-h-screen bg-third">
+    <main className="h-screen overflow-y-hidden  max-w-screen-2xl m-auto lg:flex lg:flex-col lg:justify-center  bg-third">
       <h1 className="h-[100px] font-poppins grid place-content-center text-5xl text-text_white bg-primary">
         DrinkVentory
       </h1>
