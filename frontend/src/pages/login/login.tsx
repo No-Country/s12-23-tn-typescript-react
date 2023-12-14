@@ -1,10 +1,10 @@
 import { Navigate } from "react-router-dom";
-import logo from "../../../public/img-login.svg";
+import logo from "/img-login.svg";
 import { MdOutlineMailOutline } from "react-icons/md";
 import { BiShow } from "react-icons/bi";
 import { AiOutlineEyeInvisible } from "react-icons/ai";
 import { Toaster, toast } from "sonner";
-import {  useState } from "react";
+import { useState } from "react";
 
 interface IFormLogin {
   email: string;
@@ -72,28 +72,28 @@ export default function Login() {
   };
 
   return (
-    <main className="w-[768px] min-h-screen m-auto bg-third lg:w-screen lg:flex lg:flex-col lg:justify-center">
-      <h1 className="h-[100px]  font-poppins  grid place-content-center text-5xl text-text_white  bg-primary">
+    <main className="max-w-screen-2xl m-auto lg:flex lg:flex-col lg:justify-center  min-h-screen bg-third">
+      <h1 className="h-[100px] font-poppins grid place-content-center text-5xl text-text_white bg-primary">
         DrinkVentory
       </h1>
 
-      <section className="lg:flex">
-        <article className="hidden lg:w-1/2 lg:h-[740px] lg:grid place-content-center lg:-mt-1  bg-primary">
-          <picture>
+      <section className="lg:flex bg-primary">
+        <article className="hidden lg:w-1/2 lg:grid place-content-center">
+          <picture className="w-4/5 m-auto">
             <img src={logo} alt="imagen login" />
           </picture>
         </article>
 
-        <article className="w-[768px] h-[740px] mt-14  flex justify-center items-center bg-primary relative lg:w-1/2 lg:-mt-1">
+        <article className="h-[600px] mt-10 mx-auto flex justify-center items-center relative lg:w-1/2 lg:-mt-0">
           <img
             src={logo}
             alt="imagen login"
-            className="w-[200px] h-[160px] absolute top-12 left-14 lg:hidden"
+            className="w-[140px] h-[140px] absolute -top-3 left-28 lg:hidden"
           />
           <form
-            className="w-[650px] h-[470px] font-roboto flex flex-col justify-evenly items-center rounded-lg bg-black bg-opacity-50 lg:w-[500px]"
+            className="w-[550px] h-[470px] font-roboto flex flex-col justify-evenly items-center rounded-lg bg-black bg-opacity-50 lg:w-[450px]"
             onSubmit={handleSubmit}>
-            <h2 className="text-4xl font-poppins text-text_white">
+            <h2 className="text-4xl font-poppins text-text_white lg:text-3xl">
               ¡Te damos la bienvenida!
             </h2>
             <label htmlFor="email" className="text-text_white relative">
@@ -138,7 +138,7 @@ export default function Login() {
               Inicia sesión
             </button>
           </form>
-          <Toaster richColors position="top-center" />
+          <Toaster richColors position="bottom-right" />
         </article>
       </section>
     </main>
