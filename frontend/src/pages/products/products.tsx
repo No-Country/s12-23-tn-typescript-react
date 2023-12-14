@@ -10,13 +10,14 @@ export default function Products() {
     setProduct(!product)
   }
 
+
   return (
     <MenuContent>
       {product
-      ? <FormProduct/>
+      ? <FormProduct closeForm={createProduct}/>
       :<section className="w-full p-0 lg:pt-4 lg:px-12 flex flex-col gap-6">
         <ManageProducts createProduct={createProduct}/>
-        <TableProduct/>
+        <TableProduct />
       </section>
       }
     </MenuContent>  

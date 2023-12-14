@@ -2,7 +2,6 @@ import { useState } from "react"
 import Header from "./header"
 import NavIcons from "./navIcons"
 import NavAside from "./nav"
-import React from "react"
 
 
 export default function MenuContent({children}:any) {

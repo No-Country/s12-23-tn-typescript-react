@@ -38,7 +38,9 @@ export default function Provider() {
   const openModalDelete = (id: number): void => {
     setIsModalOpenDelete(true);
 
-    setIdProvider(id);
+    if (id !== undefined) {
+      setIdProvider(id);
+    }
   };
 
   const closeModalDelete = () => {

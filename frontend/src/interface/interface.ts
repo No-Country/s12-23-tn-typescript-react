@@ -1,7 +1,33 @@
 export interface Product {
   name: string
   price: number
-  provider: string
+  provider: number
   stock: number
-  category: string
+  category: number
+}
+
+export interface DataProduct {
+  producto_id: number
+  nombre: string
+  precio: string
+  stock: number
+  proveedor_id: number
+  categoria_id: number
+}
+
+export type drinkCategory = {
+  [key: number]: string;
+};
+
+export interface StateModal {
+  stateModal: boolean
+  closeModal: () => void
+  deletePost: () => void
+}
+
+export interface EditModal {
+  stateEditModal: boolean
+  idProduct: number
+  closeModal: () => void
+  updateTable: () => void
 }

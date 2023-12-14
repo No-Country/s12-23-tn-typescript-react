@@ -30,7 +30,7 @@ const validateJWT = async (req: Request, res: Response, next: NextFunction) => {
       });
       return;
     }
-    // req.user = validUser;
+    req.user = validUser;
     next();
   } catch (error) {
     res.status(HttpCodes.CODE_UNAUTHORIZED).json({

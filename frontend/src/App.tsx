@@ -7,6 +7,7 @@ import Provider from "./pages/providers/provider";
 import Products from "./pages/products/products";
 import Users from "./pages/users/users";
 import ErrorPage from "./pages/notFound/errorPage";
+import { Toaster } from "sonner";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <Route path="/users" element={<Users></Users>}></Route>
         <Route path="*" element={<ErrorPage />}></Route>
       </Routes>
+      <Toaster richColors></Toaster>
     </>
   );
 }
