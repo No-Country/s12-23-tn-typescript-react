@@ -4,7 +4,7 @@ import { IProvider } from "../types";
 interface TableRowProps {
   data: IProvider;
   openModal: (provider: IProvider) => void;
-  openModalDelete: (id: number) => void;
+  openModalDelete: (provider: IProvider) => void;
 }
 
 function TableRow({ data, openModal, openModalDelete }: TableRowProps) {
@@ -29,7 +29,7 @@ function TableRow({ data, openModal, openModalDelete }: TableRowProps) {
         <div className="flex justify-center">
           <TbTrash
             className="cursor-pointer text-lg sm:text-xl lg:text-2xl"
-            onClick={() => openModalDelete(data.id)}
+            onClick={() => openModalDelete(data)}
           />
         </div>
       </td>
