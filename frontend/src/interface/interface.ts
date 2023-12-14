@@ -31,3 +31,10 @@ export interface EditModal {
   closeModal: () => void
   updateTable: () => void
 }
+
+export interface Clients {
+  id: number
+  name: string
+  address: string
+  phone: string
+}
