@@ -9,7 +9,7 @@ import { IProvider } from "../../../pages/providers/types";
 interface Props {
   data: IProvider[] | null;
   openModal: (provider: IProvider) => void;
-  openModalDelete: (id: number) => void;
+  openModalDelete: (provider: IProvider) => void;
 }
 
 function Table({ data, openModal, openModalDelete }: Props) {

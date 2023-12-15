@@ -23,7 +23,7 @@ export default function Provider() {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isModalOpenDelete, setIsModalOpenDelete] = useState<boolean>(false);
   const [edit, setEdit] = useState(initialFormEdit);
-  const [idProvider, setIdProvider] = useState<number>(0);
+  const [idProvider, setIdProvider] = useState<number | undefined>(0);
   const [dataProviders, setDataProviders] = useState<IProvider[] | null>(null);
 
   const openModal = (provider: IProvider): void => {
@@ -35,12 +35,11 @@ export default function Provider() {
     setIsModalOpen(false);
   };
 
-  const openModalDelete = (id: number): void => {
+  const openModalDelete = (provider: IProvider): void => {
     setIsModalOpenDelete(true);
+    const ID = provider.id;
 
-    if (id !== undefined) {
-      setIdProvider(id);
-    }
+    setIdProvider(ID);
   };
 
   const closeModalDelete = () => {
