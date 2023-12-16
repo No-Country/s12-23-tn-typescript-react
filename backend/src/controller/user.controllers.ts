@@ -1,14 +1,22 @@
 import { Request, Response } from 'express';
-// import { getAllUsers, getUserByEmail, getUserById, insertUser } from '../services/users.services';
 import userService from '../services/users.services';
 import { verifyPassword } from '../config/bcrypt';
 import { sign } from '../config/jwt';
 import { HttpCodes } from '../utils';
 import { RequestExtends } from '../interfaces/reqExtends.interface';
-import { ADMIN } from '../interfaces/rol.interface';
+import { ADMIN, OPERARIO } from '../interfaces/rol.interface';
 
 const getUsers = async (req: RequestExtends, res: Response) => {
   try {
+    const currentUser = await userService.getUserById(parseInt(req.user.id));
+    if (typeof currentUser === 'string') {
+      return res.status(HttpCodes.CODE_BAD_REQUEST).json(currentUser);
+    }
+
+    if (currentUser.rol_id !== ADMIN) {
+      return res.status(HttpCodes.CODE_FORBIDDEN).json('No tiene permisos para realizar esta acción')
+    }
+
     const users = await userService.getAllUsers();
     const publicUsers = users.map(user => {
       const { contrasena, ...publicUser } = user.dataValues;
@@ -47,19 +55,32 @@ const userLogin = async (req: Request, res: Response) => {
 
 const registerUser = async (req: RequestExtends, res: Response) => {
   try {
-    const bodyUser = req.body;
-    const user = await userService.insertUser(bodyUser);
+    const currentUser = await userService.getUserById(parseInt(req.user.id));
+    if (typeof currentUser === 'string') {
+      return res.status(HttpCodes.CODE_BAD_REQUEST).json(currentUser);
+    }
+
+    if (currentUser.rol_id !== ADMIN) {
+      return res.status(HttpCodes.CODE_FORBIDDEN).json('No tiene permisos para realizar esta acción')
+    }
+
+    const { nombre, contrasena, email, rol_id = OPERARIO } = req.body;
+    const user = await userService.insertUser({ nombre, contrasena, email, rol_id });
     res.status(HttpCodes.CODE_SUCCESS_CREATED).json(user);
 
   } catch (error) {
     console.error(error);
-    res.status(HttpCodes.CODE_INTERNAL_SERVER_ERROR).send('El email ya se encuentra en uso');
+    res.status(HttpCodes.CODE_BAD_REQUEST).send('El email ya se encuentra en uso');
   }
 };
 
 const getUser = async (req: RequestExtends, res: Response) => {
   try {
     const user = await userService.getUserById(parseInt(req.user.id));
+    if (typeof user === 'string') {
+      return res.status(HttpCodes.CODE_BAD_REQUEST).json(user);
+    }
+
     res.json(user);
 
   } catch (error) {
@@ -103,10 +124,9 @@ const getUserById = async (req: RequestExtends, res: Response) => {
 const updateUser = async (req: Request, res: Response) => {
   try {
     const { id } = req.user;
-    const { nombre, contrasena, confirmContrasena, email, rol_id } = req.body;
+    const { nombre, contrasena, confirmContrasena, email } = req.body;
 
-
-    const user = await userService.updateUserById(parseInt(id), { nombre, contrasena, confirmContrasena, email, rol_id });
+    const user = await userService.updateUserById(parseInt(id), { nombre, contrasena, confirmContrasena, email });
     res.json(user);
   } catch (error) {
     console.error(error);
@@ -118,6 +138,16 @@ const updateUser = async (req: Request, res: Response) => {
   }
 };
 
+const deleteUser = async (req: RequestExtends, res: Response) => {
+  try {
+    const { id } = req.user;
+    
+    const user = await userService.deleteUserById(parseInt(id));
+    res.json(user);
+  } catch (error) {
+    console.error(error);
+    return res.status(HttpCodes.CODE_INTERNAL_SERVER_ERROR).json();
+  }
+};
 
-// export { userLogin, getSuppliers, getSupplierById, updateSupplier, deleteSupplier };
-export { userLogin, getUsers, registerUser, getUser, getUserById, updateUser };
+export { userLogin, getUsers, registerUser, getUser, getUserById, updateUser, deleteUser };

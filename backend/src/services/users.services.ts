@@ -1,12 +1,15 @@
 import { hashPassword } from '../config/bcrypt';
 import { CreateUserDto } from '../dto/createUser.dto';
 import { updateUserDto } from '../dto/updateUser.dto';
-import { ADMIN, OPERARIO } from '../interfaces/rol.interface';
-import { Rol, User, IUser } from '../models/user.model';
+import { ADMIN } from '../interfaces/rol.interface';
+import { User, IUser } from '../models/user.model';
 
 const getAllUsers = async (): Promise<IUser[]> => {
-  const roles = await Rol.findAll();
-  console.log(roles.map(rol => rol.dataValues));
+  /* const roles = await Rol.findAll();
+  const rols = new Map<RolInterface['id'], RolInterface['descripcion']>();
+  for (const rol of roles) {
+    rols.set(rol.id, rol.descripcion);
+  } */
   const users = await User.findAll();
   return users;
 };
@@ -42,53 +45,50 @@ const getUserByEmail = async (email: string): Promise<IUser | string> => {
 };
 
 const updateUserById = async (id: number, bodyUser: updateUserDto): Promise<IUser | string> => {
-  const { nombre, contrasena, confirmContrasena, email, rol_id } = bodyUser;
+  const { nombre, contrasena, confirmContrasena, email } = bodyUser;
 
   let user = await User.findOne({ where: { id: id } });
   if (!user) {
     return 'User id not found.';
   }
 
-  if (user.rol_id !== OPERARIO && rol_id === ADMIN) {
-    return 'Can not change role'
-  }
-
-  console.log(contrasena);
-  console.log(confirmContrasena);
   let newHashContrasena: string | undefined;
-  if (contrasena !== undefined) {
-    if (confirmContrasena !== undefined) {
-      if (contrasena === confirmContrasena) {
-        newHashContrasena = await hashPassword(contrasena);
-      } else {
-        return 'Escriba la misma contraseña ambas veces';
-      }
+  if (contrasena || confirmContrasena) {
+    if ((contrasena && !confirmContrasena) || (!contrasena && confirmContrasena) || confirmContrasena !== contrasena) {
+      return 'Escriba la misma contraseña ambas veces';
     }
+
+    newHashContrasena = await hashPassword(<string>contrasena);
   }
 
   user = await user.update(
     {
       nombre,
-      newHashContrasena,
+      contrasena: newHashContrasena,
       email,
     },
     { where: { id: id } },
   );
 
-  if (!user) {
-    return 'Could not update user';
+  return user;
+};
+
+const deleteUserById = async (id: number): Promise<string> => {
+  const findUser = await User.findOne({ where: { id: id } });
+  if (!findUser) {
+    return 'User not found.';
   }
 
-  const updatedUser = await User.findOne({ where: { id: id } });
-
-  if (!updatedUser) {
-    return 'Could not update user';
+  if (findUser.rol_id === ADMIN){
+    return 'Could not delete user, you are admin';
   }
 
-  return updatedUser;
+  const removeUser = await User.destroy({ where: { id: id } });
+  if (!removeUser) {
+    return 'Could not delete user';
+  }
+  return 'successfully removed';
 };
 
 export { getAllUsers, getUserById, getUserByEmail, insertUser, updateUserById };
-export default { getAllUsers, getUserById, getUserByEmail, insertUser, updateUserById };
-
-
+export default { getAllUsers, getUserById, getUserByEmail, insertUser, updateUserById, deleteUserById };
