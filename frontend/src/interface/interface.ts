@@ -27,7 +27,7 @@ export interface StateModal {
 
 export interface EditModal {
   stateEditModal: boolean
-  idProduct: number
+  dataProduct: DataProduct | undefined
   closeModal: () => void
   updateTable: () => void
 }

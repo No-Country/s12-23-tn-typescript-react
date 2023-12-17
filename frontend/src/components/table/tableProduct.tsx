@@ -15,6 +15,7 @@ export default function TableProduct() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editModalOpen, setEditsModalOpen] = useState(false);
   const [idProduct, setIdProduct] = useState<number>(1)
+  const [dataProduct, setDataProduct] = useState<DataProduct>()
 
   useEffect(()=>{
     fetchProduct()
@@ -61,12 +62,12 @@ export default function TableProduct() {
     setIsModalOpen(false)
   }
 
-  const openModal = (productId: number) =>{ 
+  const openModal = (product: DataProduct) =>{ 
     setIsModalOpen(true);
-    setIdProduct(productId)
+    setIdProduct(product.producto_id)
   }  
-  const openModalEdit = async (productId: number) =>{
-    setIdProduct(productId)
+  const openModalEdit = async (product: DataProduct) =>{
+    setDataProduct(product)
 
     setEditsModalOpen(true);
   }
@@ -98,11 +99,7 @@ export default function TableProduct() {
         {products.slice(inicio,fin).map((bebida, index)=>(
           <React.Fragment key={index}>
             <TableRowProduct 
-            nombre={bebida.nombre} 
-            precio={bebida.precio} 
-            stock={bebida.stock} 
-            categoria_id={bebida.categoria_id}
-            producto_id={bebida.producto_id}
+            data={bebida}
             openModalDelete={openModal}
             openModalEdit={openModalEdit}
             />
@@ -128,7 +125,7 @@ export default function TableProduct() {
     <ModalDelete deletePost={deletePost} stateModal={isModalOpen} closeModal={closeModal}></ModalDelete>
     
     <ModalEditProduct 
-    idProduct={idProduct} 
+    dataProduct={dataProduct} 
     stateEditModal={editModalOpen} 
     closeModal={closeModalEdit} 
     updateTable={updateTable}

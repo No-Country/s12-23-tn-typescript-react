@@ -8,8 +8,8 @@ import Modal from "../../ui/modal";
 import { Toaster, toast } from "sonner";
 import { ModalDelete } from "./modalDelete";
 
-type FormEvents = {
-  change: React.ChangeEvent<HTMLInputElement>;
+export type FormEvents = {
+  change: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>;
   submit: React.FormEvent<HTMLFormElement>;
 };
 
