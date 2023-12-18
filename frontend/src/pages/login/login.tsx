@@ -84,14 +84,14 @@ export default function Login() {
           </picture>
         </article>
 
-        <article className="h-[600px] mt-10 mx-auto flex justify-center items-center relative lg:w-1/2 lg:-mt-0">
+        <article className="h-[500px] mt-10 mx-auto flex justify-center items-center relative lg:w-1/2 lg:-mt-0 lg:h-[500px]">
           <img
             src={logo}
             alt="imagen login"
-            className="w-[140px] h-[140px] absolute -top-3 left-28 lg:hidden"
+            className="w-[140px] h-[140px] absolute -top-14 left-28 lg:hidden"
           />
           <form
-            className="w-[550px] h-[470px] font-roboto flex flex-col justify-evenly items-center rounded-lg bg-black bg-opacity-50 lg:w-[450px]"
+            className="w-[550px] h-[470px] font-roboto flex flex-col justify-evenly items-center rounded-lg bg-black bg-opacity-50 lg:w-[450px] lg:h-[450px]"
             onSubmit={handleSubmit}>
             <h2 className="text-4xl font-poppins text-text_white lg:text-3xl">
               ¡Te damos la bienvenida!
