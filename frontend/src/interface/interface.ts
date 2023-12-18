@@ -15,6 +15,13 @@ export interface DataProduct {
   categoria_id: number
 }
 
+export interface Client {
+  id: number
+  name: string
+  address: string
+  phone: string
+}
+
 export type drinkCategory = {
   [key: number]: string;
 };

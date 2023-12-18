@@ -49,7 +49,7 @@ export default function TableProduct() {
   const deletePost = async () =>{
     try{
       await axios.delete(`https://inventario-nocontry-s12-23.onrender.com/api/products/${idProduct}`)
-      toast.success("El producto fue borrado con exito")
+      toast.success("El producto fue eliminado con exito")
       setIsModalOpen(false)
 
       fetchProduct()
@@ -81,7 +81,6 @@ export default function TableProduct() {
     setEditsModalOpen(false)
   }
 
-  
   return (
     <>
     <table className="border-2 px-4 w-full border-separate border-spacing-y-3 text-xs sm:text-base lg:text-xl">
