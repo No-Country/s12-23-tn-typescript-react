@@ -1,78 +1,26 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { MdKeyboardDoubleArrowLeft, MdKeyboardDoubleArrowRight } from "react-icons/md";
 
 import TableRow from "./tableRow";
+import { fetchDataClients } from "../../services/fetchData";
+import { Clients } from "../../interface/interface";
 
-const elements = [
-  {
-    nombre: "Juan Pérez",
-    direccion: "123 Calle Principal",
-    telefono: "555-1234"
-  },
-  {
-    nombre: "María García",
-    direccion: "456 Avenida Secundaria",
-    telefono: "555-5678"
-  },
-  {
-    nombre: "Carlos Rodríguez",
-    direccion: "789 Calle Secundaria",
-    telefono: "555-9876"
-  },
-  {
-    nombre: "Ana Martínez",
-    direccion: "321 Avenida Principal",
-    telefono: "555-4321"
-  },
-  {
-    nombre: "Pedro Sánchez",
-    direccion: "654 Calle Principal",
-    telefono: "555-8765"
-  },
-  {
-    nombre: "Luisa Hernández",
-    direccion: "987 Avenida Secundaria",
-    telefono: "555-3456"
-  },
-  {
-    nombre: "Javier López",
-    direccion: "210 Calle Secundaria",
-    telefono: "555-6543"
-  },
-  {
-    nombre: "Sofía Ramírez",
-    direccion: "543 Avenida Principal",
-    telefono: "555-8765"
-  },
-  {
-    nombre: "Roberto Torres",
-    direccion: "876 Calle Principal",
-    telefono: "555-2345"
-  },
-  {
-    nombre: "Isabel García",
-    direccion: "109 Avenida Secundaria",
-    telefono: "555-6789"
-  },
-  {
-    nombre: "Miguel Soto",
-    direccion: "432 Calle Secundaria",
-    telefono: "555-8901"
-  },
-  {
-    nombre: "Laura Mendoza",
-    direccion: "765 Avenida Principal",
-    telefono: "555-1234"
-  }
-];
 
 
 function Table() {
+  const [dataClients, setDataClients] = useState<Clients[]>([])
+  useEffect(()=>{
+    fetchClients()
+  },[])
+  const fetchClients = async () =>{
+    setDataClients(await fetchDataClients())
+  }
+  
   const [currentPage, setCurrentPage] = useState(1);
   const productosPorPagina = 5;
   const inicio = (currentPage - 1) * productosPorPagina;
   const fin = currentPage * productosPorPagina;
-  const totalPaginas = Math.ceil(elements.length / productosPorPagina);
+  const totalPaginas = Math.ceil(dataClients.length / productosPorPagina);
 
   const beforeProduct = () =>{
     if(currentPage <= 1 ){
@@ -104,8 +52,12 @@ function Table() {
         </thead>
         <tbody className="divide-y-8">
           {
-            elements.slice(inicio, fin).map((element, index) => (
-              <TableRow data={element} key={index} />
+            dataClients.slice(inicio, fin).map((element, index) => (
+              <TableRow key={index} data={{
+                nombre: element.name,
+                direccion: element.address,
+                telefono: element.phone
+              }} />
             ))
           }
         </tbody>

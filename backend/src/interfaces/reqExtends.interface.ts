@@ -1,6 +1,6 @@
 import { Request } from 'express';
-import { JwtPayload } from 'jsonwebtoken';
+import { jwtPayload } from '../config/jwt';
 
 export interface RequestExtends extends Request {
-  user?: string | JwtPayload;
+  user: jwtPayload;
 }

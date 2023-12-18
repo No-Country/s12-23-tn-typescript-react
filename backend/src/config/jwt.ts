@@ -1,13 +1,13 @@
 import jwt from 'jsonwebtoken';
 const secretKey = String(process.env.JWT_SECRET_KEY);
 
-type jwtPayload = {
-  userId: string;
+export type jwtPayload = {
+  id: string;
 };
 
 export const sign = (payload: jwtPayload) => {
   return new Promise((res, rej) => {
-    jwt.sign(payload, secretKey, { algorithm: 'RS256' }, function (err, token) {
+    jwt.sign(payload, secretKey, { algorithm: 'HS256', expiresIn: '4h' }, function (err, token) {
       return err ? rej(err) : res(token);
     });
   });
