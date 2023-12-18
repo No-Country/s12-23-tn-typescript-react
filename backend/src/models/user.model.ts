@@ -3,10 +3,10 @@ import { getSequelize } from '../config/db';
 
 
 import { RolInterface } from '../interfaces/rol.interface';
-export interface IRol extends Model, Omit<RolInterface, 'id'> { }
+export interface IRol extends Model, RolInterface { }
 
 
-const Rol = getSequelize().define(
+const Rol = getSequelize().define<IRol>(
   'Rols',
   {
     rol_id: {
