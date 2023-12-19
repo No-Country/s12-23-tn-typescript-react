@@ -9,6 +9,7 @@ import { Client, Clients } from "../../interface/interface";
 import axios from "axios";
 import { toast } from "sonner";
 import { FormEvents } from "../../pages/providers/provider";
+import { ClimbingBoxLoader } from "react-spinners";
 
 const API_URL = "https://inventario-nocontry-s12-23.onrender.com/api/clients";
 
@@ -17,6 +18,7 @@ function Table() {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [modalDelete, setModalDelete] = useState(false)
   const [idClient, setIdClient] = useState<number>(0)
+  const [loading, setLoading] = useState(true)
   const [dataClient, setDataClient] = useState<Client>({
     id: 0,
     name: "",
@@ -24,7 +26,6 @@ function Table() {
     phone: ""
   })
   const [currentPage, setCurrentPage] = useState(1);
-
   const productosPorPagina = 5;
   const inicio = (currentPage - 1) * productosPorPagina;
   const fin = currentPage * productosPorPagina;
@@ -34,8 +35,10 @@ function Table() {
     fetchInfoClients()
   }, []);
 
-  const fetchInfoClients = () =>{
-    fetchDataClients().then(data => setDataClients(data));
+  const fetchInfoClients = async () =>{
+    await fetchDataClients().then(data => setDataClients(data));
+
+    setLoading(false)
 
   }
 
@@ -108,6 +111,10 @@ function Table() {
 
   return (
     <>
+      {loading == true 
+      ?<ClimbingBoxLoader loading={true}size={40}aria-label="Loading Spinner"
+      data-testid="loader" color="#344D64" className="max-md:mt-20 flex justify-center m-auto text-4xl"/>
+      :<>
       <ManageClient searchClient={searchClient}/>
       <table className="w-full table-auto border-2 rounded-lg">
         <thead className="bg-zinc-50 border-b-2 border-zinc-200">
@@ -152,7 +159,7 @@ function Table() {
           onClick={nextProduct}
         />
       </div>
-}
+}</>}
 
       <Modal isOpen={isModalOpen} onClose={closeModal}>
         <h2 className="text-2xl font-bold mb-4 text-center">Edición del cliente</h2>

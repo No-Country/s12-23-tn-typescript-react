@@ -79,10 +79,6 @@ function ManageClient({searchClient}:any) {
               <TbSearch className='text-gray-800 text-xl' />
             </div>
           </div>
-          <button 
-            className='bg-[#354762] text-[#FFFDFD] w-full py-2 rounded-lg md:w-60'>
-              Buscar
-          </button>
         </div>
         <div>
           <button className='bg-[#354762] text-[#FFFDFD] w-60 py-2 rounded-lg max-md:mt-2' onClick={openModal}

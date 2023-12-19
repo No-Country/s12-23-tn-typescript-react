@@ -7,15 +7,17 @@ import { ModalDelete } from '../../ui/modalDelete';
 import { toast } from 'sonner';
 import { ModalEditProduct } from '../../ui/modalEditProduct';
 import { fetchDataProducts } from '../../services/fetchData';
+import ManageProducts from '../manageProducts/manageProducts';
+import { ClimbingBoxLoader } from 'react-spinners';
 
-export default function TableProduct() {
+export default function TableProduct({createProduct}:any) {
   const [products, setProducts] = useState<DataProduct[]>([])
   const [currentPage, setCurrentPage] = useState(1);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editModalOpen, setEditsModalOpen] = useState(false);
   const [idProduct, setIdProduct] = useState<number>(1)
   const [dataProduct, setDataProduct] = useState<DataProduct>()
-
+  const [loading, setLoading] = useState(true)
   useEffect(()=>{
     fetchProduct()
   },[])
@@ -23,6 +25,7 @@ export default function TableProduct() {
   const fetchProduct = async () =>{
     const res = await fetchDataProducts()
     setProducts(res)
+    setLoading(false)
   } 
 
   /* CALCULO PARA LAS TABLAS */
@@ -80,8 +83,27 @@ export default function TableProduct() {
     setEditsModalOpen(false)
   }
 
+  
+  const searchProduct = (product: string) => {
+    if (product !== "") {
+      const nombreLowerCase = product.toLowerCase();
+      const resultados: DataProduct[] = products.filter(
+        (producto) =>
+          producto.nombre.toLowerCase().includes(nombreLowerCase)
+      );
+      setProducts(resultados);
+    } else {
+      fetchProduct();
+    }
+  };
+
   return (
     <>
+    {loading == true 
+    ?<ClimbingBoxLoader loading={true}size={40}aria-label="Loading Spinner"
+    data-testid="loader" color="#344D64" className="max-md:mt-20 flex justify-center m-auto text-4xl"/>
+    :<>
+    <ManageProducts createProduct={createProduct} searchDataProduct={searchProduct}/>
     <table className="w-full table-auto border-2 rounded-lg">
       <thead className='bg-zinc-50 border-b-2 border-zinc-200'>
         <tr>
@@ -119,15 +141,13 @@ export default function TableProduct() {
         ))}
       <MdKeyboardDoubleArrowRight className="cursor-pointer" onClick={nextProduct}/>
     </div>
-
     <ModalDelete deletePost={deletePost} stateModal={isModalOpen} closeModal={closeModal} title='Producto'></ModalDelete>
-    
     <ModalEditProduct 
     dataProduct={dataProduct} 
     stateEditModal={editModalOpen} 
     closeModal={closeModalEdit} 
     updateTable={updateTable}
-    />
+    /></>}
     </>
   )
 }
