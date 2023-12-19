@@ -1,32 +1,31 @@
 import { IoIosCloseCircleOutline } from "react-icons/io"
-import { EditModal } from "../interface/interface"
+import { DataProduct, EditModal } from "../interface/interface"
 import { useEffect, useState } from "react"
-import { fetchProductOnly } from "../services/fetchData"
 import { obtenerCategoriaTexto } from "../components/table/tableRowProduct"
 import axios from "axios"
 import { toast } from "sonner"
+import { FormEvents } from "../pages/providers/provider"
 
-export const ModalEditProduct: React.FC<EditModal>  = ({stateEditModal, closeModal, idProduct, updateTable}) =>{
-  const [editDrink, setEditDrink] = useState({
+export const ModalEditProduct: React.FC<EditModal>  = ({stateEditModal, closeModal, dataProduct, updateTable}) =>{
+  const [editDrink, setEditDrink] = useState<DataProduct>({
+    producto_id: 0,
     categoria_id: 0,
     nombre: "",
-    precio: 0,
+    precio: "",
     stock: 0,
     proveedor_id: 0
   })
 
   useEffect(()=>{
-    const fetchData = async () =>{
-      setEditDrink( await fetchProductOnly(idProduct))
-    }
-
-    fetchData()
-  },[idProduct])
+    if (dataProduct != undefined) {
+      setEditDrink(dataProduct);
+    }  
+  }, [dataProduct])
 
   const editProduct = async (e:React.FormEvent) =>{
     e.preventDefault()
     try{
-      await axios.put(`https://inventario-nocontry-s12-23.onrender.com/api/products/${idProduct}`,{
+      await axios.put(`https://inventario-nocontry-s12-23.onrender.com/api/products/${editDrink.producto_id}`,{
         nombre: editDrink.nombre,
         precio: editDrink.precio,
         stock: editDrink.stock,
@@ -39,25 +38,16 @@ export const ModalEditProduct: React.FC<EditModal>  = ({stateEditModal, closeMod
       toast.warning("Sucedio un error vuelve a intentarlo")
     }
   }
-  const updateName = (value: React.ChangeEvent<HTMLInputElement>) =>{
-    setEditDrink({...editDrink, nombre:value.target.value})
-  }
 
-  const updatePrice = (value: React.ChangeEvent<HTMLInputElement>) =>{
-    setEditDrink({...editDrink, precio:Number(value.target.value)})
-  }
+  
+  const handleChangeInput = (e: FormEvents["change"]):void => {
+    const { name, value } = e.target;
 
-  const updateStock = (value: React.ChangeEvent<HTMLInputElement>) =>{
-    setEditDrink({...editDrink, stock:Number(value.target.value)})
-  }
-
-  const updateCategory = (value: React.ChangeEvent<HTMLSelectElement>) =>{
-    setEditDrink({...editDrink, categoria_id:Number(value.target.value)})
-  }
-
-  const updateProvider = (value: React.ChangeEvent<HTMLSelectElement>) =>{
-    setEditDrink({...editDrink, proveedor_id:Number(value.target.value)})
-  }
+    setEditDrink({
+      ...editDrink,
+      [name]: value,
+    });
+  };
 
   return (
     <div id="loginModal" className={`${stateEditModal? "block":"hidden"} z-20 modal fixed inset-0 bg-black  bg-opacity-50 flex items-center justify-center`}>
@@ -69,23 +59,24 @@ export const ModalEditProduct: React.FC<EditModal>  = ({stateEditModal, closeMod
           <label htmlFor="name" className="font-bold">Nombre</label>
           <input
             type="text"
-            onChange={updateName}
+            name="nombre"
+            onChange={handleChangeInput}
             value={editDrink.nombre}
             className="mb-4 h-10 w-full outline-1 outline rounded-lg text-black font-medium px-2 py-1"
           />          
           <label htmlFor="price" className="font-bold" >Precio</label> 
-          <input type="number" onChange={updatePrice} value={editDrink.precio} className="mb-4 h-10  outline-1 outline rounded-lg text-black font-medium px-2 py-1"/>
-          <label htmlFor="stock" className="font-bold">Stock </label>
-          <input type="number"onChange={updateStock}  value={editDrink.stock} className="mb-4 h-10  outline-1 outline rounded-lg text-black font-medium px-2 py-1"/>
-          <label htmlFor="providers" className="font-bold">Proveedores</label>
-          <select name="providers" onChange={updateProvider} id="" className="mb-4 h-10  outline-1 outline rounded-lg text-black font-medium px-2 py-1">
+          <input type="number" name="precio" onChange={handleChangeInput} value={editDrink.precio} className="mb-4 h-10  outline-1 outline rounded-lg text-black font-medium px-2 py-1"/>
+          <label htmlFor="stock"  className="font-bold">Stock </label>
+          <input type="number" name="stock" onChange={handleChangeInput}  value={editDrink.stock} className="mb-4 h-10  outline-1 outline rounded-lg text-black font-medium px-2 py-1"/>
+          <label htmlFor="proveedor_id" className="font-bold">Proveedores</label>
+          <select name="proveedor_id" onChange={handleChangeInput} id="" className="mb-4 h-10  outline-1 outline rounded-lg text-black font-medium px-2 py-1">
             <option value="" hidden >Proveedor Actual ({editDrink.proveedor_id})</option>
             <option value="1">Proveedor 1</option>
             <option value="2">Proveedor 2</option>
             <option value="3">Proveedor 3</option>
           </select>
           <label htmlFor="category" className="font-bold">Categoria</label>
-          <select onChange={updateCategory} className="mb-4 h-10  outline-1 outline rounded-lg text-black font-medium px-2 py-1">
+          <select onChange={handleChangeInput} name="categoria_id" className="mb-4 h-10  outline-1 outline rounded-lg text-black font-medium px-2 py-1">
             <option value="" hidden>Opción Actual ({obtenerCategoriaTexto(editDrink.categoria_id)}) </option>
             <option value="1">Gaseosas</option>
             <option value="2">Aguas</option>

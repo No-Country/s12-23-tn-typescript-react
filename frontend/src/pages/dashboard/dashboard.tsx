@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import MenuContent from "../../components/header/menuContent";
 import { fetchDataClients, fetchDataProducts, fetchDataSupplier } from "../../services/fetchData";
 import { Link } from "react-router-dom";
-
 export default function Dashboard() {
   const [quantities, setQuantities] = useState({
     product: [],
