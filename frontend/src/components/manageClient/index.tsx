@@ -4,7 +4,7 @@ import { EventsForm } from '../manageProviders';
 import { toast } from 'sonner';
 import axios from 'axios';
 import Modal from '../../ui/modal';
-import { Client } from '../../interface/interface';
+import { newClient } from '../../interface/interface';
 
 function ManageClient() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -17,7 +17,7 @@ function ManageClient() {
     setIsModalOpen(false);
   };
 
-  const initialFormProvider: Client = {
+  const initialFormProvider: newClient = {
     name: "",
     address: "",
     phone: "",
@@ -48,7 +48,7 @@ function ManageClient() {
 
     newProvider(form);
 
-    async function newProvider(client: Client): Promise<void> {
+    async function newProvider(client: newClient): Promise<void> {
       const URL =
         "https://inventario-nocontry-s12-23.onrender.com/api/clients/";
       try {

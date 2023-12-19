@@ -73,14 +73,14 @@ function ManageClient({handleSearchName}:any) {
           Gestion de proveedores
         </h3>
         <div className='flex items-center justify-between max-md:flex-col'>
-          <form  className='flex flex-col gap-2 w-60 lg:flex-row lg:w-auto'>
+          <div  className='flex flex-col gap-2 w-60 lg:flex-row lg:w-auto'>
             <div className='flex items-center rounded-lg justify-around border bg-white border-gray-300 p-1 w-full md:w-60'>
               <input
                 name="nombre"
                 className="outline-none py-1"
                 type="search"
                 placeholder="Buscar proveedor"
-                onChange={(e)=>handleSearchName(e.target.value)}
+                onChange={(e)=>handleSearchName(e.target.value, e.preventDefault())}
               />
               <div className="">
                 <TbSearch className="text-gray-800 text-xl" />
@@ -92,7 +92,7 @@ function ManageClient({handleSearchName}:any) {
               >
               Buscar
             </button>
-          </form>
+          </div>
           <div>
             <button
              className='bg-[#354762] text-[#FFFDFD] w-60 py-2 rounded-lg max-md:mt-2' 
