@@ -5,14 +5,16 @@ import {
 } from "react-icons/md";
 import TableRow from "./tableRow";
 import { IProvider } from "../../../pages/providers/types";
+import ManageProviders from "../../../components/manageProviders";
 
 interface Props {
   data: IProvider[] | null;
   openModal: (provider: IProvider) => void;
   openModalDelete: (provider: IProvider) => void;
+  searchName: (search: string) => void 
 }
 
-function Table({ data, openModal, openModalDelete }: Props) {
+function Table({ data, openModal, openModalDelete, searchName }: Props) {
   const [currentPage, setCurrentPage] = useState(1);
   if (!data) return;
 
@@ -37,6 +39,7 @@ function Table({ data, openModal, openModalDelete }: Props) {
 
   return (
     <>
+      <ManageProviders handleSearchName={searchName}/>
       <table className="border-2 p-4 table-auto w-full border-separate border-spacing-y-3 text-xs sm:text-base lg:text-xl">
         <thead>
           <tr>
@@ -59,7 +62,13 @@ function Table({ data, openModal, openModalDelete }: Props) {
           ))}
         </tbody>
       </table>
-      <div className="border-2 text-center flex items-center justify-center text-xl gap-8 bottom-4">
+      
+      {data.length == 0 ?
+      <div className="flex justify-center items-center flex-col">
+        <img src={"notfound.png"} alt="image-not-found" width={300} />
+        <p className="text-center font-bold text-xl">Proveedor No encontrado</p>
+        </div>
+        :<div className="border-2 text-center flex items-center justify-center text-xl gap-8 bottom-4">
         <MdKeyboardDoubleArrowLeft
           onClick={beforeProduct}
           className="cursor-pointer"
@@ -79,6 +88,7 @@ function Table({ data, openModal, openModalDelete }: Props) {
           onClick={nextProduct}
         />
       </div>
+        }
     </>
   );
 }

@@ -1,16 +1,16 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { TbSearch } from "react-icons/tb";
 import Modal from "../../ui/modal";
 import { Toaster, toast } from "sonner";
 import axios from "axios";
 import { IProvider } from "../../pages/providers/types";
 
-type EventsForm = {
+export type EventsForm = {
   change: React.ChangeEvent<HTMLInputElement>;
   submit: React.FormEvent<HTMLFormElement>;
 };
 
-function ManageClient() {
+function ManageClient({handleSearchName}:any) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const openModal = () => {
@@ -31,7 +31,6 @@ function ManageClient() {
 
   const handleChangeInput = (e: EventsForm["change"]): void => {
     const { name, value } = e.target;
-
     setForm({
       ...form,
       [name]: value,
@@ -67,81 +66,21 @@ function ManageClient() {
     }
   };
 
-  //Aqui inicia la busqueda
-
-  const [data, setData] = useState<IProvider[] | null>(null);
-  const [dataResults, setDataResults] = useState<IProvider[] | null>(null);
-  const [isShowTableSearch, setIsShowTableSearch] = useState(false);
-
-  useEffect(() => {
-    const getProviders = async () => {
-      const URL =
-        "https://inventario-nocontry-s12-23.onrender.com/api/supplier/";
-      try {
-        const response = await axios.get(URL);
-
-        setData(response.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    getProviders();
-  }, []);
-
-  type FormEventChange = {
-    change: React.ChangeEvent<HTMLInputElement>;
-  };
-
-  interface InputSearch {
-    nombre: string;
-  }
-
-  const initialInputSearch = {
-    nombre: "",
-  };
-
-  const [inputSearch, setInputSearch] =
-    useState<InputSearch>(initialInputSearch);
-
-  const handleSearchName = (e: FormEventChange["change"]) => {
-    setInputSearch({ nombre: e.target.value });
-  };
-
-  const searchName = () => {
-    const nombreLowerCase = inputSearch.nombre?.toLowerCase();
-    const resultados = data?.filter(
-      (persona) =>
-        persona.nombre.toLowerCase().includes(nombreLowerCase) ||
-        persona.direccion.toLowerCase().includes(nombreLowerCase)
-    );
-
-    if (resultados !== undefined) {
-      if (resultados.length === 0) {
-        console.log("No se encontraron resultados");
-      }
-      setIsShowTableSearch(true);
-      setDataResults(resultados);
-    }
-  };
-
-  //Fin busqueda
-
   return (
     <>
       <div className="flex flex-col gap-4 bg-black bg-opacity-80 px-4 py-4 md:px-12 lg:rounded-lg">
         <h3 className="font-bold text-3xl text-[#F5F1EA]">
           Gestion de proveedores
         </h3>
-        <div className="flex items-center justify-between">
-          <div className="flex flex-col gap-2 w-52 lg:flex-row lg:w-auto">
-            <div className="flex items-center border bg-white border-gray-300 rounded p-1 w-full md:w-52">
+        <div className='flex items-center justify-between max-md:flex-col'>
+          <form  className='flex flex-col gap-2 w-60 lg:flex-row lg:w-auto'>
+            <div className='flex items-center rounded-lg justify-around border bg-white border-gray-300 p-1 w-full md:w-60'>
               <input
                 name="nombre"
                 className="outline-none py-1"
                 type="search"
                 placeholder="Buscar proveedor"
-                value={inputSearch.nombre}
-                onChange={handleSearchName}
+                onChange={(e)=>handleSearchName(e.target.value)}
               />
               <div className="">
                 <TbSearch className="text-gray-800 text-xl" />
@@ -149,48 +88,21 @@ function ManageClient() {
             </div>
             <button
               className="bg-[#354762] text-[#FFFDFD] w-full py-2 rounded-lg md:w-52"
-              onClick={searchName}>
+              // onClick={searchName}
+              >
               Buscar
             </button>
-          </div>
+          </form>
           <div>
             <button
-              className="bg-[#354762] text-[#FFFDFD] w-52 py-2 rounded-lg"
-              onClick={openModal}>
+             className='bg-[#354762] text-[#FFFDFD] w-60 py-2 rounded-lg max-md:mt-2' 
+            onClick={openModal}
+              >
               Agregar proveedor
             </button>
           </div>
         </div>
-        {isShowTableSearch && (
-          <div className="bg-red-100">
-            <div>
-              <button onClick={() => setIsShowTableSearch(false)}>
-                Limpiar busqueda
-              </button>
-              <h3>Resultados</h3>
-              <table className="w-full">
-                <thead>
-                  <tr>
-                    <th>Nombre</th>
-                    <th>Dirección</th>
-                    <th>Teléfono</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {dataResults?.map((results) => (
-                    <>
-                      <tr>
-                        <td>{results.nombre}</td>
-                        <td>{results.direccion}</td>
-                        <td>{results.telefono}</td>
-                      </tr>
-                    </>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        )}
+
       </div>
 
       <Modal isOpen={isModalOpen} onClose={closeModal}>

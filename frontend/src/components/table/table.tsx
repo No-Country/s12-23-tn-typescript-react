@@ -1,14 +1,16 @@
 import { FormEvent, useEffect, useState } from "react";
 import { MdKeyboardDoubleArrowLeft, MdKeyboardDoubleArrowRight } from "react-icons/md";
-
 import TableRow from "./tableRow";
+import ManageClient from '../../components/manageClient'
+import Modal from "../../ui/modal";
+import { ModalDelete } from "../../ui/modalDelete";
 import { fetchDataClients } from "../../services/fetchData";
 import { Client, Clients } from "../../interface/interface";
-import Modal from "../../ui/modal";
-import { FormEvents } from "../../pages/providers/provider";
 import axios from "axios";
 import { toast } from "sonner";
-import { ModalDelete } from "../../ui/modalDelete";
+import { FormEvents } from "../../pages/providers/provider";
+
+const API_URL = "https://inventario-nocontry-s12-23.onrender.com/api/clients";
 
 function Table() {
   const [dataClients, setDataClients] = useState<Clients[]>([])
@@ -23,93 +25,70 @@ function Table() {
   })
   const [currentPage, setCurrentPage] = useState(1);
 
-
   const productosPorPagina = 5;
   const inicio = (currentPage - 1) * productosPorPagina;
   const fin = currentPage * productosPorPagina;
   const totalPaginas = Math.ceil(dataClients.length / productosPorPagina);
 
-  useEffect(()=>{
-    fetchClients()
-  },[])
-  const fetchClients = async () =>{
-    setDataClients(await fetchDataClients())
-  }
+  useEffect(() => {
+    fetchDataClients().then(data => setDataClients(data));
+  }, []);
 
-  const beforeProduct = () =>{
-    if(currentPage <= 1 ){
-      setCurrentPage(1)
-    }else{
-      setCurrentPage(currentPage - 1)
-    }
-
-  }
-
-  const nextProduct = () =>{
-    if (currentPage < totalPaginas) {
-      setCurrentPage(currentPage + 1);
-    }
-  }
+  const beforeProduct = () => setCurrentPage(prevPage => Math.max(prevPage - 1, 1));
+  const nextProduct = () => setCurrentPage(prevPage => Math.min(prevPage + 1, totalPaginas));
 
   const openModal = (client: Client) => {
     setIsModalOpen(true);
-
-    setDataClient(client)
+    setDataClient(client);
   };
 
-  const closeModal = () =>{
-    setIsModalOpen(false)
-  }
+  const closeModal = () => setIsModalOpen(false);
 
-  const openModalDelete = (id:number) =>{
-    setModalDelete(true)
+  const openModalDelete = (id: number) => {
+    setModalDelete(true);
+    setIdClient(id);
+  };
 
-    setIdClient(id)
-  }
-  const closeModalDelete = () =>{
-    setModalDelete(false)
-  }
+  const closeModalDelete = () => setModalDelete(false);
 
-  const deleteClient = async () =>{
-    try{
-      await axios.delete(`https://inventario-nocontry-s12-23.onrender.com/api/clients/${idClient}`)
-      toast.success("El cliente fue eliminado con exito")
-      setModalDelete(false)
-
-      fetchClients()
-    }catch{
-      toast.warning("Sucedio un error vuelve a intentarlo")
+  const deleteClient = async () => {
+    try {
+      await axios.delete(`${API_URL}/${idClient}`);
+      toast.success("El cliente fue eliminado con éxito");
+      setModalDelete(false);
+      fetchDataClients().then(data => setDataClients(data));
+    } catch {
+      toast.warning("Sucedio un error, vuelve a intentarlo");
     }
-  }
+  };
 
-  const editClientData = async (e: FormEvent) =>{
-    e.preventDefault()
-    try{
-      await axios.post(`https://inventario-nocontry-s12-23.onrender.com/api/clients/${dataClient.id}`,{
-          name: dataClient.name,
-          adress: dataClient.address,
-          phone: dataClient.phone,
-        }
-      )
-      fetchClients()
-      toast.success("El cliente fue modificado")
-    }catch{
-      toast.warning("Sucedio un error vuelve a intentarlo")
+  const editClientData = async (e: FormEvent) => {
+    e.preventDefault();
+    try {
+      await axios.post(`${API_URL}/${dataClient.id}`, {
+        name: dataClient.name,
+        adress: dataClient.address,
+        phone: dataClient.phone,
+      });
+      fetchDataClients().then(data => setDataClients(data));
+      toast.success("El cliente fue modificado");
+    } catch {
+      toast.warning("Sucedio un error, vuelve a intentarlo");
     }
+  };
 
-  }
-  
-  const handleChangeInput = (e: FormEvents["change"]):void => {
+  const handleChangeInput = (e: FormEvents["change"]): void => {
     const { name, value } = e.target;
-
     setDataClient({
       ...dataClient,
       [name]: value,
     });
   };
 
+
   return (
     <>
+      <ManageClient/>
       <table className="border-2 p-4 table-auto w-full border-separate border-spacing-y-3 text-xs sm:text-base lg:text-xl">
         <thead>
           <tr>
@@ -121,18 +100,15 @@ function Table() {
           </tr>
         </thead>
         <tbody className="divide-y-8">
-          {
-            dataClients.slice(inicio, fin).map((element, index) => (
-              <TableRow key={index} data={element} openModal={openModal} openModalDelete={openModalDelete}
-               />
-            ))
-          }
+          {dataClients.slice(inicio, fin).map((element, index) => (
+            <TableRow key={index} data={element} openModal={openModal} openModalDelete={openModalDelete} />
+          ))}
         </tbody>
       </table>
-      
+
       <div className='border-2 text-center flex items-center justify-center text-xl gap-8 bottom-4'>
-      <MdKeyboardDoubleArrowLeft onClick={beforeProduct} className="cursor-pointer"/>
-      {Array.from({ length: totalPaginas }, (_, index) => (
+        <MdKeyboardDoubleArrowLeft onClick={beforeProduct} className="cursor-pointer" />
+        {Array.from({ length: totalPaginas }, (_, index) => (
           <p
             key={index}
             className={`cursor-pointer ${currentPage === index + 1 ? "font-bold" : ""}`}
@@ -141,11 +117,11 @@ function Table() {
             {index + 1}
           </p>
         ))}
-      <MdKeyboardDoubleArrowRight className="cursor-pointer" onClick={nextProduct}/>
-    </div>
+        <MdKeyboardDoubleArrowRight className="cursor-pointer" onClick={nextProduct} />
+      </div>
 
-    <Modal isOpen={isModalOpen} onClose={closeModal}>
-        <h2 className="text-2xl font-bold mb-4 text-center">Alta de cliente</h2>
+      <Modal isOpen={isModalOpen} onClose={closeModal}>
+        <h2 className="text-2xl font-bold mb-4 text-center">Edición del cliente</h2>
         <p className="text-center">¡Bien! Vamos por buen camino</p>
         <form className="flex flex-col gap-9" onSubmit={editClientData}>
           <div className="flex flex-col gap-2">
@@ -163,10 +139,15 @@ function Table() {
           <button type="submit" className="bg-[#354762] py-1 rounded-lg cursor-pointer border-2 h-10 my-1" >Guardar Cambios</button>
         </form>
       </Modal>
-      <ModalDelete deletePost={deleteClient} stateModal={modalDelete} closeModal={closeModalDelete}/>
-    </>
 
-  )
+      <ModalDelete
+        deletePost={deleteClient}
+        stateModal={modalDelete}
+        closeModal={closeModalDelete}
+        title="Cliente"
+      />
+    </>
+  );
 }
 
-export default Table
+export default Table;

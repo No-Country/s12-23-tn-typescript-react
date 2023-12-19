@@ -16,7 +16,7 @@ export interface DataProduct {
 }
 
 export interface Client {
-  id: number
+  id?: number
   name: string
   address: string
   phone: string
@@ -27,6 +27,7 @@ export type drinkCategory = {
 };
 
 export interface StateModal {
+  title?: string
   stateModal: boolean
   closeModal: () => void
   deletePost: () => void

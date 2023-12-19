@@ -121,7 +121,7 @@ export default function TableProduct() {
       <MdKeyboardDoubleArrowRight className="cursor-pointer" onClick={nextProduct}/>
     </div>
 
-    <ModalDelete deletePost={deletePost} stateModal={isModalOpen} closeModal={closeModal}></ModalDelete>
+    <ModalDelete deletePost={deletePost} stateModal={isModalOpen} closeModal={closeModal} title='Producto'></ModalDelete>
     
     <ModalEditProduct 
     dataProduct={dataProduct} 

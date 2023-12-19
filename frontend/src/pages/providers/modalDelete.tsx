@@ -18,7 +18,7 @@ export const ModalDelete: React.FC<StateModal> = ({
         stateModal ? "block" : "hidden"
       } z-20 modal fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center`}>
       <div
-        className={`flex flex-col  items-center relative justify-center transition-all duration-300 w-1/4 max-xl:w-2/4 modal-content bg-text_blue shadow-xl shadow-text_blue text-white rounded-lg  p-6  max-md:w-4/5 h-2/4`}>
+        className={`flex flex-col  items-center relative justify-center transition-all duration-300 w-1/4 max-xl:w-2/4 modal-content bg-text_blue shadow-xl shadow-text_blue text-white rounded-lg  p-6  max-md:w-4/5 h-auto`}>
         <IoIosCloseCircleOutline
           className=" text-4xl cursor-pointer absolute right-5 top-4"
           onClick={closeModalDelete}

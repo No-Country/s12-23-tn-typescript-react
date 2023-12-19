@@ -14,8 +14,6 @@ function TableRow({ data, openModal, openModalDelete}: TableRowProps) {
       <tr>
         <td>
           <div className="flex items-center gap-[2px] sm:gap-1 lg:gap-2">
-            <div className="mask mask-squircle w-4 h-4 sm:w-6 sm:h-6 lg:w-8 lg:h-8 bg-[#00CFE8] rounded-full">
-            </div>
             <div>
               <div>{data.name}</div>
             </div>

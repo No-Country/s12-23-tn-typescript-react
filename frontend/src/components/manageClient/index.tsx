@@ -1,6 +1,69 @@
 import { TbSearch } from 'react-icons/tb'
+import { useState } from 'react';
+import { EventsForm } from '../manageProviders';
+import { toast } from 'sonner';
+import axios from 'axios';
+import Modal from '../../ui/modal';
+import { Client } from '../../interface/interface';
+
 function ManageClient() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const initialFormProvider: Client = {
+    name: "",
+    address: "",
+    phone: "",
+  };
+
+  const [form, setForm] = useState(initialFormProvider);
+
+  const handleChangeInput = (e: EventsForm["change"]): void => {
+    const { name, value } = e.target;
+    setForm({
+      ...form,
+      [name]: value,
+    });
+  };
+
+  const handleSubmit = (e: EventsForm["submit"]): string | React.ReactNode => {
+    e.preventDefault();
+
+    if (!form.name || !form.address || !form.phone) {
+      return toast.error("Los campos no pueden ir vacios");
+    }
+
+    if (form.address.length >= 30) {
+      return toast.warning(
+        "El campo dirección no puede ser mayor a 30 caracteres"
+      );
+    }
+
+    newProvider(form);
+
+    async function newProvider(client: Client): Promise<void> {
+      const URL =
+        "https://inventario-nocontry-s12-23.onrender.com/api/clients/";
+      try {
+        await axios.post(URL, client);
+        toast.success("Cliente agregado");
+        closeModal();
+        setForm(initialFormProvider);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
+  
   return (
+    <>
     <section className='w-full flex flex-col gap-4 bg-black bg-opacity-80 px-4 py-4 md:px-12 lg:rounded-lg'>
       <h3 className='font-bold text-3xl text-[#F5F1EA] max-md:text-center'>Gestión de Clientes</h3>
       <div className='flex items-center justify-between max-md:flex-col'>
@@ -21,10 +84,59 @@ function ManageClient() {
           </button>
         </form>
         <div>
-          <button className='bg-[#354762] text-[#FFFDFD] w-60 py-2 rounded-lg max-md:mt-2' >Agregar Clientes</button>
+          <button className='bg-[#354762] text-[#FFFDFD] w-60 py-2 rounded-lg max-md:mt-2' onClick={openModal}
+            >Agregar Clientes</button>
         </div>
       </div>
     </section>
+
+    <Modal isOpen={isModalOpen} onClose={closeModal}>
+        <h2 className="text-2xl font-bold mb-4 text-center">
+          Alta de Cliente
+        </h2>
+        <p className="text-center">¡Bien! Vamos por buen camino</p>
+        <form className="flex flex-col gap-9" onSubmit={handleSubmit}>
+          <div className="flex flex-col gap-2">
+            <label htmlFor="name">Nombre</label>
+            <input
+              id="name"
+              name="name"
+              type="text"
+              className="rounded-lg text-black font-medium px-2 py-1"
+              value={form.name}
+              onChange={handleChangeInput}
+            />
+          </div>
+          <div className="flex flex-col gap-2">
+            <label htmlFor="address">Dirección</label>
+            <input
+              id="address"
+              name="address"
+              type="text"
+              className="rounded-lg text-black font-medium px-2 py-1"
+              value={form.address}
+              onChange={handleChangeInput}
+            />
+          </div>
+          <div className="flex flex-col gap-2">
+            <label htmlFor="phone">Teléfono</label>
+            <input
+              id="phone"
+              name="phone"
+              type="text"
+              className=" rounded-lg text-black font-medium px-2 py-1"
+              value={form.phone}
+              onChange={handleChangeInput}
+            />
+          </div>
+          <input
+            type="submit"
+            value="Agregar"
+            className="py-1 rounded-lg cursor-pointer border border-text_white border-t-0  bg-primary text-text_white"
+          />
+        </form>
+      </Modal>
+    </>
   )
 }
 
