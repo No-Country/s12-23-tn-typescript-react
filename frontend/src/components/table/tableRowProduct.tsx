@@ -1,15 +1,11 @@
 import { TbEdit, TbTrash } from 'react-icons/tb'
-import { drinkCategory } from '../../interface/interface';
+import { DataProduct, drinkCategory } from '../../interface/interface';
 import React from 'react';
 
 export interface DataComment  {
-  nombre: string
-  precio: string
-  stock: number
-  categoria_id: number
-  producto_id: number
-  openModalDelete: (producto_id: number) => void
-  openModalEdit: (producto_id: number) => void
+  data: DataProduct
+  openModalDelete: (product: DataProduct) => void
+  openModalEdit: (product: DataProduct) => void
 }
 
 export function obtenerCategoriaTexto(idCategoria:number = 1) {
@@ -24,19 +20,21 @@ const categorias:drinkCategory = {
   5: 'Vinos',
 };
 
-export const TableRowProduct:React.FC<DataComment> = ({nombre, precio, stock, categoria_id, producto_id, openModalDelete, openModalEdit}) =>{
+export const TableRowProduct:React.FC<DataComment> = ({data, openModalDelete, openModalEdit}) =>{
 
   return (
     <>
-      <tr className='border-2 text-base'>
-        <td className='text-left'>{nombre}</td>
-        <td className='text-left'>{precio}</td>
-        <td className='text-left'>{stock}</td>
-        <td className='text-left'>{obtenerCategoriaTexto(categoria_id)}</td>
-        <td ><p className='flex justify-center items-center cursor-pointer text-xl' onClick={() => openModalEdit(producto_id)} ><TbEdit/></p></td>
-        <td><p className='flex justify-center items-center cursor-pointer text-xl' onClick={() => openModalDelete(producto_id)} ><TbTrash/></p></td>
-      </tr>
-
+      <td className='p-2 text-sm text-gray-700'>{data.nombre}</td>
+      <td className='p-2 text-sm text-gray-700'>{data.precio}</td>
+      <td className='p-2 text-sm text-gray-700'>{data.stock}</td>
+      <td className='p-2 text-sm text-gray-700'>{obtenerCategoriaTexto(data.categoria_id)}</td>
+      <td className='p-2 text-sm text-gray-700 flex justify-center items-center cursor-pointer'>
+        <p className='' onClick={() => openModalEdit(data)} >
+          <TbEdit className="cursor-pointer text-3xl border-2 bg-blue-100 rounded-lg text-blue-800 p-1 hover:brightness-90 transition-all duration-200"/></p>
+      </td>
+      <td className='p-2 text-sm text-gray-700'><p className='flex justify-center items-center cursor-pointer text-xl' onClick={() => openModalDelete(data)} >
+        <TbTrash className="cursor-pointer text-3xl border-2 bg-red-100 text-red-600 rounded-lg p-1 hover:brightness-90 transition-all duration-200"/></p>
+      </td>
     </>
   )
 }

@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
 import MenuContent from "../../components/header/menuContent";
-import ManageProviders from "../../components/manageProviders";
 import axios from "axios";
-import { IProvider } from "./types";
 import Table from "./table/table";
 import Modal from "../../ui/modal";
 import { Toaster, toast } from "sonner";
-import { ModalDelete } from "./modalDelete";
+import {ClimbingBoxLoader} from 'react-spinners'
+import { ModalDelete } from "../../ui/modalDelete";
+import { IProvider } from "../../interface/interface";
 
-type FormEvents = {
-  change: React.ChangeEvent<HTMLInputElement>;
+export type FormEvents = {
+  change: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>;
   submit: React.FormEvent<HTMLFormElement>;
 };
 
@@ -96,30 +96,48 @@ export default function Provider() {
   }
 
   useEffect(() => {
-    const getProviders = async () => {
-      const URL =
-        "https://inventario-nocontry-s12-23.onrender.com/api/supplier/";
-      try {
-        const response = await axios.get(URL);
-
-        setDataProviders(response.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
     getProviders();
-  }, [dataProviders]);
+  }, []);
+
+  const getProviders = async () => {
+    const URL =
+      "https://inventario-nocontry-s12-23.onrender.com/api/supplier";
+    try {
+      const response = await axios.get(URL);
+
+      setDataProviders(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const searchName = (inputSearch: string) => {
+    if(inputSearch != ""){
+      const nombreLowerCase = inputSearch.toLowerCase();
+      const resultados: IProvider[] | null = dataProviders?.filter(
+        (persona) =>
+          persona.nombre.toLowerCase().includes(nombreLowerCase) ||
+          persona.direccion.toLowerCase().includes(nombreLowerCase)
+      ) ?? null;
+      setDataProviders(resultados);
+      console.log(resultados)
+    }else{
+      getProviders()
+    }
+  };
 
   return (
     <MenuContent>
-      <section className="w-full h-[652px] bg-[#F5FCFD] p-0 lg:h-screen  lg:pt-4 lg:px-12 flex flex-col gap-8 ">
-        <ManageProviders />
+      <section className=" bg-gray-100 w-full h-auto mb-8  p-0  lg:pt-4 lg:px-12 flex flex-col gap-8 ">
+        {dataProviders == null && <ClimbingBoxLoader loading={true}size={40}aria-label="Loading Spinner"
+              data-testid="loader" color="#344D64" className="max-md:mt-20 flex justify-center m-auto text-4xl"/>
+        }
         <Table
           data={dataProviders}
           openModal={openModal}
           openModalDelete={openModalDelete}
-        />
-
+          searchName={searchName}
+        />  
         <Modal isOpen={isModalOpen} onClose={closeModal}>
           <h2 className="text-2xl font-bold mb-4 text-center">
             Editar Proveedor
@@ -163,12 +181,11 @@ export default function Provider() {
             />
           </form>
         </Modal>
-
-        <ModalDelete
+          <ModalDelete
           stateModal={isModalOpenDelete}
-          closeModalDelete={closeModalDelete}
-          deleteProvider={deleteProvider}
-        />
+          closeModal={closeModalDelete}
+          deletePost={deleteProvider} title="Proveedores"/>
+
         <Toaster richColors position="bottom-right" />
       </section>
     </MenuContent>
