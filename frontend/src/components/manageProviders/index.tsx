@@ -3,7 +3,7 @@ import { TbSearch } from "react-icons/tb";
 import Modal from "../../ui/modal";
 import { Toaster, toast } from "sonner";
 import axios from "axios";
-import { IProvider } from "../../pages/providers/types";
+import { IProvider } from "../../interface/interface";
 
 export type EventsForm = {
   change: React.ChangeEvent<HTMLInputElement>;
@@ -69,30 +69,20 @@ function ManageClient({handleSearchName}:any) {
   return (
     <>
       <div className="flex flex-col gap-4 bg-black bg-opacity-80 px-4 py-4 md:px-12 lg:rounded-lg">
-        <h3 className="font-bold text-3xl text-[#F5F1EA]">
+        <h3 className="font-bold text-3xl text-[#F5F1EA] max-md:text-center">
           Gestion de proveedores
         </h3>
-        <div className='flex items-center justify-between max-md:flex-col'>
-          <form  className='flex flex-col gap-2 w-60 lg:flex-row lg:w-auto'>
-            <div className='flex items-center rounded-lg justify-around border bg-white border-gray-300 p-1 w-full md:w-60'>
+        <div className='flex items-center  justify-between max-md:flex-col'>
+            <div className='flex items-center w-96  rounded-lg justify-around border bg-white border-gray-300 p-1'>
               <input
                 name="nombre"
-                className="outline-none py-1"
+                className="outline-none py-1 w-full"
                 type="search"
                 placeholder="Buscar proveedor"
-                onChange={(e)=>handleSearchName(e.target.value)}
+                onChange={(e)=>handleSearchName(e.target.value, e.preventDefault())}
               />
-              <div className="">
-                <TbSearch className="text-gray-800 text-xl" />
-              </div>
+              <TbSearch className="text-gray-800 text-xl" />
             </div>
-            <button
-              className="bg-[#354762] text-[#FFFDFD] w-full py-2 rounded-lg md:w-52"
-              // onClick={searchName}
-              >
-              Buscar
-            </button>
-          </form>
           <div>
             <button
              className='bg-[#354762] text-[#FFFDFD] w-60 py-2 rounded-lg max-md:mt-2' 
@@ -110,40 +100,38 @@ function ManageClient({handleSearchName}:any) {
           Alta de proveedor
         </h2>
         <p className="text-center">¡Bien! Vamos por buen camino</p>
-        <form className="flex flex-col gap-9" onSubmit={handleSubmit}>
-          <div className="flex flex-col gap-2">
-            <label htmlFor="name">Nombre</label>
-            <input
-              id="name"
-              name="nombre"
-              type="text"
-              className="rounded-lg text-black font-medium px-2 py-1"
-              value={form.nombre}
-              onChange={handleChangeInput}
-            />
-          </div>
-          <div className="flex flex-col gap-2">
-            <label htmlFor="address">Dirección</label>
-            <input
-              id="address"
-              name="direccion"
-              type="text"
-              className="rounded-lg text-black font-medium px-2 py-1"
-              value={form.direccion}
-              onChange={handleChangeInput}
-            />
-          </div>
-          <div className="flex flex-col gap-2">
-            <label htmlFor="phone">Teléfono</label>
-            <input
-              id="phone"
-              name="telefono"
-              type="text"
-              className=" rounded-lg text-black font-medium px-2 py-1"
-              value={form.telefono}
-              onChange={handleChangeInput}
-            />
-          </div>
+        <form onSubmit={handleSubmit} className="flex flex-col text-gray-800">
+          <label className=" text-gray-100 font-bold mt-4" htmlFor="name">Nombre</label>
+          <input
+            className=" placeholder:text-gray-500 outline-none rounded-md h-8 mb-6 px-2"
+            placeholder="JohnDoe"
+            id="name"
+            name="nombre"
+            type="text"
+            value={form.nombre}
+            onChange={handleChangeInput}
+            
+          />
+          <label className=" text-gray-100 font-bold" htmlFor="address">Dirección</label>
+          <input
+            className=" placeholder:text-gray-500 outline-none rounded-md h-8 mb-6 px-2"
+            placeholder="Avenida Frondal 3253"
+            id="address"
+            name="direccion"
+            type="text"
+            value={form.direccion}
+            onChange={handleChangeInput}
+          />
+          <label className=" text-gray-100 font-bold" htmlFor="phone">Teléfono</label>
+          <input
+            className=" placeholder:text-gray-500 outline-none rounded-md h-8 mb-6 px-2"
+            placeholder="1193421232"
+            id="phone"
+            name="telefono"
+            type="text"
+            value={form.telefono}
+            onChange={handleChangeInput}
+          />
           <input
             type="submit"
             value="Agregar"

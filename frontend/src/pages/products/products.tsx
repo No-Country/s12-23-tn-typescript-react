@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import MenuContent from '../../components/header/menuContent'
-import ManageProducts from '../../components/manageProducts/manageProducts'
 import TableProduct from '../../components/table/tableProduct'
 import FormProduct from '../../components/form/formProduct'
 
@@ -15,9 +14,8 @@ export default function Products() {
     <MenuContent>
       {product
       ? <FormProduct closeForm={createProduct}/>
-      :<section className="w-full p-0 lg:pt-4 lg:px-12 flex flex-col gap-6">
-        <ManageProducts createProduct={createProduct}/>
-        <TableProduct />
+      :<section className="bg-gray-100 w-full h-auto mb-8  p-0  lg:pt-4 lg:px-12 flex flex-col gap-8 ">
+      <TableProduct createProduct={createProduct}/>
       </section>
       }
     </MenuContent>  

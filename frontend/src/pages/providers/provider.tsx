@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import MenuContent from "../../components/header/menuContent";
 import axios from "axios";
-import { IProvider } from "./types";
 import Table from "./table/table";
 import Modal from "../../ui/modal";
 import { Toaster, toast } from "sonner";
-import { ModalDelete } from "./modalDelete";
 import {ClimbingBoxLoader} from 'react-spinners'
+import { ModalDelete } from "../../ui/modalDelete";
+import { IProvider } from "../../interface/interface";
 
 export type FormEvents = {
   change: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>;
@@ -128,8 +128,9 @@ export default function Provider() {
 
   return (
     <MenuContent>
-      <section className="w-full h-[652px] bg-[#F5FCFD] p-0 lg:h-screen  lg:pt-4 lg:px-12 flex flex-col gap-8 ">
-        {dataProviders == null && <ClimbingBoxLoader color="#344D64" size="50" className=" flex justify-center m-auto"/>
+      <section className=" bg-gray-100 w-full h-auto mb-8  p-0  lg:pt-4 lg:px-12 flex flex-col gap-8 ">
+        {dataProviders == null && <ClimbingBoxLoader loading={true}size={40}aria-label="Loading Spinner"
+              data-testid="loader" color="#344D64" className="max-md:mt-20 flex justify-center m-auto text-4xl"/>
         }
         <Table
           data={dataProviders}
@@ -180,12 +181,11 @@ export default function Provider() {
             />
           </form>
         </Modal>
-
-        <ModalDelete
+          <ModalDelete
           stateModal={isModalOpenDelete}
-          closeModalDelete={closeModalDelete}
-          deleteProvider={deleteProvider}
-        />
+          closeModal={closeModalDelete}
+          deletePost={deleteProvider} title="Proveedores"/>
+
         <Toaster richColors position="bottom-right" />
       </section>
     </MenuContent>
