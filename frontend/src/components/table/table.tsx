@@ -31,8 +31,13 @@ function Table() {
   const totalPaginas = Math.ceil(dataClients.length / productosPorPagina);
 
   useEffect(() => {
-    fetchDataClients().then(data => setDataClients(data));
+    fetchInfoClients()
   }, []);
+
+  const fetchInfoClients = () =>{
+    fetchDataClients().then(data => setDataClients(data));
+
+  }
 
   const beforeProduct = () => setCurrentPage(prevPage => Math.max(prevPage - 1, 1));
   const nextProduct = () => setCurrentPage(prevPage => Math.min(prevPage + 1, totalPaginas));
@@ -56,7 +61,7 @@ function Table() {
       await axios.delete(`${API_URL}/${idClient}`);
       toast.success("El cliente fue eliminado con éxito");
       setModalDelete(false);
-      fetchDataClients().then(data => setDataClients(data));
+      fetchInfoClients();
     } catch {
       toast.warning("Sucedio un error, vuelve a intentarlo");
     }
@@ -85,40 +90,69 @@ function Table() {
     });
   };
 
+  const searchClient = (client: string) => {
+    if(client != ""){
+      const nombreLowerCase = client.toLowerCase();
+      const resultados: Clients[] | null = dataClients.filter(
+        (persona) =>
+          persona.name.toLowerCase().includes(nombreLowerCase) ||
+          persona.address.toLowerCase().includes(nombreLowerCase)
+      ) ?? null;
+      setDataClients(resultados);
+      console.log(resultados)
+    }else{
+      fetchInfoClients()
+    }
+  };
+
 
   return (
     <>
-      <ManageClient/>
-      <table className="border-2 p-4 table-auto w-full border-separate border-spacing-y-3 text-xs sm:text-base lg:text-xl">
-        <thead>
+      <ManageClient searchClient={searchClient}/>
+      <table className="w-full table-auto border-2 rounded-lg">
+        <thead className="bg-zinc-50 border-b-2 border-zinc-200">
           <tr>
-            <th className="text-left pl-5 sm:pl-7 lg:pl-10">Nombre</th>
-            <th className="text-left">Dirección</th>
-            <th className="text-left">Teléfono</th>
-            <th>Editar</th>
-            <th>Eliminar</th>
+            <th className="p-2 text-sm font-semibold tracking-wide text-left">Nombre</th>
+            <th className="p-2 text-sm font-semibold tracking-wide text-left">Dirección</th>
+            <th className="p-2 text-sm font-semibold tracking-wide text-left">Teléfono</th>
+            <th className="p-2 text-sm font-semibold tracking-wide ">Editar</th>
+            <th className="p-2 text-sm font-semibold tracking-wide ">Eliminar</th>
           </tr>
         </thead>
-        <tbody className="divide-y-8">
+        <tbody className="">
           {dataClients.slice(inicio, fin).map((element, index) => (
-            <TableRow key={index} data={element} openModal={openModal} openModalDelete={openModalDelete} />
+            <tr className={`${index % 2 == 0 ? "bg-gray-100" : "bg-gray-200"}`} key={index}>
+              <TableRow data={element} openModal={openModal} openModalDelete={openModalDelete} />
+            </tr>
           ))}
         </tbody>
       </table>
-
-      <div className='border-2 text-center flex items-center justify-center text-xl gap-8 bottom-4'>
-        <MdKeyboardDoubleArrowLeft onClick={beforeProduct} className="cursor-pointer" />
+      {dataClients.length == 0 ?
+      <div className="flex justify-center items-center flex-col">
+        <img src={"notfound.png"} alt="image-not-found" width={300} className="" />
+        <p className="text-center font-bold text-xl">Cliente No encontrado</p>
+        </div>
+        :<div className="bg-zinc-50 border-2 border-zinc-200 text-center flex items-center justify-center text-xl gap-8 bottom-4">
+        <MdKeyboardDoubleArrowLeft
+          onClick={beforeProduct}
+          className="cursor-pointer relative"
+        />
         {Array.from({ length: totalPaginas }, (_, index) => (
           <p
             key={index}
-            className={`cursor-pointer ${currentPage === index + 1 ? "font-bold" : ""}`}
-            onClick={() => setCurrentPage(index + 1)}
-          >
+            className={`cursor-pointer ${
+              currentPage === index + 1 ? "font-bold" : ""
+            } text-sm font-semibold tracking-wide`}
+            onClick={() => setCurrentPage(index + 1)}>
             {index + 1}
           </p>
         ))}
-        <MdKeyboardDoubleArrowRight className="cursor-pointer" onClick={nextProduct} />
+        <MdKeyboardDoubleArrowRight
+          className="cursor-pointer"
+          onClick={nextProduct}
+        />
       </div>
+}
 
       <Modal isOpen={isModalOpen} onClose={closeModal}>
         <h2 className="text-2xl font-bold mb-4 text-center">Edición del cliente</h2>

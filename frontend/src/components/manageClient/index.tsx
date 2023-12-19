@@ -6,7 +6,7 @@ import axios from 'axios';
 import Modal from '../../ui/modal';
 import { newClient } from '../../interface/interface';
 
-function ManageClient() {
+function ManageClient({searchClient}:any) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const openModal = () => {
@@ -67,12 +67,13 @@ function ManageClient() {
     <section className='w-full flex flex-col gap-4 bg-black bg-opacity-80 px-4 py-4 md:px-12 lg:rounded-lg'>
       <h3 className='font-bold text-3xl text-[#F5F1EA] max-md:text-center'>Gestión de Clientes</h3>
       <div className='flex items-center justify-between max-md:flex-col'>
-        <form  className='flex flex-col gap-2 w-60 lg:flex-row lg:w-auto'>
+        <div  className='flex flex-col gap-2 w-60 lg:flex-row lg:w-auto'>
           <div className='flex items-center rounded-lg justify-around border bg-white border-gray-300 p-1 w-full md:w-60'>
             <input
               className='outline-none py-1 '
               type="text"
               placeholder='Buscar cliente'
+              onChange={(e)=>searchClient(e.target.value, e.preventDefault())}
             />
             <div className=''>
               <TbSearch className='text-gray-800 text-xl' />
@@ -82,7 +83,7 @@ function ManageClient() {
             className='bg-[#354762] text-[#FFFDFD] w-full py-2 rounded-lg md:w-60'>
               Buscar
           </button>
-        </form>
+        </div>
         <div>
           <button className='bg-[#354762] text-[#FFFDFD] w-60 py-2 rounded-lg max-md:mt-2' onClick={openModal}
             >Agregar Clientes</button>
@@ -95,40 +96,37 @@ function ManageClient() {
           Alta de Cliente
         </h2>
         <p className="text-center">¡Bien! Vamos por buen camino</p>
-        <form className="flex flex-col gap-9" onSubmit={handleSubmit}>
-          <div className="flex flex-col gap-2">
+        <form className="flex flex-col" onSubmit={handleSubmit}>
             <label htmlFor="name">Nombre</label>
             <input
               id="name"
               name="name"
               type="text"
-              className="rounded-lg text-black font-medium px-2 py-1"
+              className=" placeholder:text-gray-500 outline-none rounded-md h-8 mb-6 px-2 "
+              placeholder="JohnDoe"              
               value={form.name}
               onChange={handleChangeInput}
             />
-          </div>
-          <div className="flex flex-col gap-2">
             <label htmlFor="address">Dirección</label>
             <input
               id="address"
               name="address"
               type="text"
-              className="rounded-lg text-black font-medium px-2 py-1"
+              className=" placeholder:text-gray-500 outline-none rounded-md h-8 mb-6 px-2 "
+              placeholder="White 964"             
               value={form.address}
               onChange={handleChangeInput}
             />
-          </div>
-          <div className="flex flex-col gap-2">
             <label htmlFor="phone">Teléfono</label>
             <input
               id="phone"
               name="phone"
               type="text"
-              className=" rounded-lg text-black font-medium px-2 py-1"
+              className=" placeholder:text-gray-500 outline-none rounded-md h-8 mb-6 px-2 "
+              placeholder="110034324"              
               value={form.phone}
               onChange={handleChangeInput}
             />
-          </div>
           <input
             type="submit"
             value="Agregar"

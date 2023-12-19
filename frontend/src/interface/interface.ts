@@ -15,6 +15,14 @@ export interface DataProduct {
   categoria_id: number
 }
 
+export interface IProvider {
+  id?: number;
+  nombre: string;
+  direccion: string;
+  telefono: string;
+}
+
+
 export interface newClient {
   name: string
   address: string

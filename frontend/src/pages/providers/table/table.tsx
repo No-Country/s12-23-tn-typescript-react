@@ -4,8 +4,8 @@ import {
   MdKeyboardDoubleArrowRight,
 } from "react-icons/md";
 import TableRow from "./tableRow";
-import { IProvider } from "../../../pages/providers/types";
 import ManageProviders from "../../../components/manageProviders";
+import { IProvider } from "../../../interface/interface";
 
 interface Props {
   data: IProvider[] | null;
@@ -40,19 +40,19 @@ function Table({ data, openModal, openModalDelete, searchName }: Props) {
   return (
     <>
       <ManageProviders handleSearchName={searchName}/>
-      <table className="border-2 p-4 table-auto w-full border-separate border-spacing-y-3 text-xs sm:text-base lg:text-xl">
-        <thead>
+      <table className=" w-full table-auto border-2">
+        <thead className="bg-zinc-50 border-b-2 border-zinc-200">
           <tr>
-            <th className="text-left pl-5 sm:pl-7 lg:pl-10">Nombre</th>
-            <th className="text-left">Dirección</th>
-            <th className="text-left">Teléfono</th>
-            <th>Editar</th>
-            <th>Eliminar</th>
+            <th className="p-2 text-sm font-semibold tracking-wide text-left">Nombre</th>
+            <th className="p-2 text-sm font-semibold tracking-wide text-left">Dirección</th>
+            <th className="p-2 text-sm font-semibold tracking-wide text-left">Teléfono</th>
+            <th className="p-2 text-sm font-semibold tracking-wide ">Editar</th>
+            <th className="p-2 text-sm font-semibold tracking-wide ">Eliminar</th>
           </tr>
         </thead>
-        <tbody className="divide-y-8">
-          {data.slice(inicio, fin).map((data) => (
-            <tr key={data.id}>
+        <tbody className="">
+          {data.slice(inicio, fin).map((data, index) => (
+            <tr key={data.id} className={`${index % 2 == 0 ? "bg-gray-100" : "bg-gray-200"} border-black`}>
               <TableRow
                 data={data}
                 openModal={openModal}
@@ -68,17 +68,17 @@ function Table({ data, openModal, openModalDelete, searchName }: Props) {
         <img src={"notfound.png"} alt="image-not-found" width={300} />
         <p className="text-center font-bold text-xl">Proveedor No encontrado</p>
         </div>
-        :<div className="border-2 text-center flex items-center justify-center text-xl gap-8 bottom-4">
+        :<div className="bg-zinc-50 border-2 border-zinc-200 text-center flex items-center justify-center text-xl gap-8 bottom-4">
         <MdKeyboardDoubleArrowLeft
           onClick={beforeProduct}
-          className="cursor-pointer"
+          className="cursor-pointer relative"
         />
         {Array.from({ length: totalPaginas }, (_, index) => (
           <p
             key={index}
             className={`cursor-pointer ${
               currentPage === index + 1 ? "font-bold" : ""
-            }`}
+            } text-sm font-semibold tracking-wide`}
             onClick={() => setCurrentPage(index + 1)}>
             {index + 1}
           </p>

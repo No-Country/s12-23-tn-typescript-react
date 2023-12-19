@@ -24,15 +24,17 @@ export const TableRowProduct:React.FC<DataComment> = ({data, openModalDelete, op
 
   return (
     <>
-      <tr className='border-2 text-base'>
-        <td className='text-left'>{data.nombre}</td>
-        <td className='text-left'>{data.precio}</td>
-        <td className='text-left'>{data.stock}</td>
-        <td className='text-left'>{obtenerCategoriaTexto(data.categoria_id)}</td>
-        <td ><p className='flex justify-center items-center cursor-pointer text-xl' onClick={() => openModalEdit(data)} ><TbEdit/></p></td>
-        <td><p className='flex justify-center items-center cursor-pointer text-xl' onClick={() => openModalDelete(data)} ><TbTrash/></p></td>
-      </tr>
-
+      <td className='p-2 text-sm text-gray-700'>{data.nombre}</td>
+      <td className='p-2 text-sm text-gray-700'>{data.precio}</td>
+      <td className='p-2 text-sm text-gray-700'>{data.stock}</td>
+      <td className='p-2 text-sm text-gray-700'>{obtenerCategoriaTexto(data.categoria_id)}</td>
+      <td className='p-2 text-sm text-gray-700 flex justify-center items-center cursor-pointer'>
+        <p className='' onClick={() => openModalEdit(data)} >
+          <TbEdit className="cursor-pointer text-3xl border-2 bg-blue-100 rounded-lg text-blue-800 p-1 hover:brightness-90 transition-all duration-200"/></p>
+      </td>
+      <td className='p-2 text-sm text-gray-700'><p className='flex justify-center items-center cursor-pointer text-xl' onClick={() => openModalDelete(data)} >
+        <TbTrash className="cursor-pointer text-3xl border-2 bg-red-100 text-red-600 rounded-lg p-1 hover:brightness-90 transition-all duration-200"/></p>
+      </td>
     </>
   )
 }

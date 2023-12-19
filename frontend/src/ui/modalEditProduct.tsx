@@ -51,7 +51,7 @@ export const ModalEditProduct: React.FC<EditModal>  = ({stateEditModal, closeMod
 
   return (
     <div id="loginModal" className={`${stateEditModal? "block":"hidden"} z-20 modal fixed inset-0 bg-black  bg-opacity-50 flex items-center justify-center`}>
-      <div className={`flex flex-col  items-center relative justify-center transition-all duration-300 w-2/5 max-xl:w-3/5 modal-content bg-[#344D64] shadow-xl shadow-[#344D64] text-white rounded-lg  p-6  max-md:w-4/5 h-auto`}>
+      <div className={`flex flex-col  items-center relative justify-center transition-all duration-300 w-2/5 max-xl:w-3/5 modal-content bg-[#344D64] shadow-xl shadow-[#344D64] text-white rounded-lg  p-2  max-md:w-4/5 h-auto`}>
         <IoIosCloseCircleOutline className=" text-4xl cursor-pointer absolute right-5 top-4" onClick={closeModal}/>
         <h2 className="text-4xl text-center my-6 text-[#f0f3ff] font-bold">Editar Producto</h2>
         <p className='text-lg'>!Listo! ahora puedes editar</p>
