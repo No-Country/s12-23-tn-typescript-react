@@ -168,7 +168,7 @@ function Table() {
           {dataClients.length == 0 ? (
             <div className="flex justify-center items-center flex-col">
               <img
-                src={"notfound.png"}
+                src={"../notfound.png"}
                 alt="image-not-found"
                 width={300}
                 className=""

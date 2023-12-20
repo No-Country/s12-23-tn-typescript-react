@@ -146,7 +146,7 @@ export default function FormProduct({ closeForm }: any) {
         </form>
 
         <img
-          src={"Image.png"}
+          src={"../image-form.png"}
           alt="image-form"
           className="rounded-lg max-md:hidden w-80 h-80"
         />

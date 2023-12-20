@@ -72,8 +72,8 @@ function ManageClient({handleSearchName}:any) {
         <h3 className="font-bold text-3xl text-[#F5F1EA] max-md:text-center">
           Gestion de proveedores
         </h3>
-        <div className='flex items-center  justify-between max-md:flex-col'>
-            <div className='flex items-center w-96  rounded-lg justify-around border bg-white border-gray-300 p-1'>
+        <div className='flex items-center justify-between max-md:flex-col'>
+          <div className='flex items-center rounded-lg justify-around border bg-white border-gray-300 p-1 w-full md:w-60'>
               <input
                 name="nombre"
                 className="outline-none py-1 w-full"
