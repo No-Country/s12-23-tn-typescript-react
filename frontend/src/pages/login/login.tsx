@@ -1,14 +1,15 @@
-import { Navigate } from "react-router-dom";
 import logo from "/img-login.svg";
 import { MdOutlineMailOutline } from "react-icons/md";
 import { BiShow } from "react-icons/bi";
 import { AiOutlineEyeInvisible } from "react-icons/ai";
-import { Toaster, toast } from "sonner";
 import { useState } from "react";
+import axios from "axios";
+import { useAuthContext } from "../../context/authContext";
+import { toast } from "sonner";
 
 interface IFormLogin {
   email: string;
-  password: string;
+  contrasena: string;
 }
 
 type FormEvents = {
@@ -19,21 +20,13 @@ type FormEvents = {
 export default function Login() {
   const InitialFormLogin: IFormLogin = {
     email: "",
-    password: "",
+    contrasena: "",
   };
 
-  const user = {
-    email: "nocontry.s12.23@gmail.com",
-    password: "123456789",
-  };
+  const { login } = useAuthContext();
 
   const [formLogin, setFormLogin] = useState(InitialFormLogin);
   const [isVisiblePass, setIsVisiblePass] = useState(false);
-  const [isAuthent, setIsAuthent] = useState(false);
-
-  if (isAuthent) {
-    return <Navigate to={"/home"} />;
-  }
 
   const handleChangeInput = (e: FormEvents["change"]): void => {
     const { name, value } = e.target;
@@ -41,10 +34,10 @@ export default function Login() {
     setFormLogin({ ...formLogin, [name]: value });
   };
 
-  const handleSubmit = (e: FormEvents["submit"]): void => {
+  const handleSubmit = async (e: FormEvents["submit"]) => {
     e.preventDefault();
 
-    if (!formLogin.email || !formLogin.password) {
+    if (!formLogin.email || !formLogin.contrasena) {
       toast.error("Los campos no pueden ir vacios");
       return;
     }
@@ -56,15 +49,22 @@ export default function Login() {
       return;
     }
 
-    if (
-      user.email !== formLogin.email ||
-      user.password !== formLogin.password
-    ) {
-      setIsAuthent(false);
-      toast.error("Error al iniciar sesión verifica tus datos");
-    } else {
-      setIsAuthent(true);
-    }
+    const options = {
+      method: "POST",
+      url: "https://inventario-nocontry-s12-23.onrender.com/api/users/login",
+      headers: { Authorization: "Bearer " },
+      data: formLogin,
+    };
+
+    axios
+      .request(options)
+      .then(function (response) {
+        login(response.data);
+      })
+      .catch(function (error) {
+        console.log(error);
+        toast.error("Usuario y/o contraseña incorrecta");
+      });
   };
 
   const handleIsVisiblePass = () => {
@@ -113,15 +113,15 @@ export default function Login() {
                 <MdOutlineMailOutline className="text-black" />
               </span>
             </label>
-            <label htmlFor="password" className="text-white relative">
+            <label htmlFor="contrasena" className="text-white relative">
               Contraseña
               <input
-                id="password"
+                id="contrasena"
                 type={isVisiblePass ? "text" : "password"}
-                name="password"
+                name="contrasena"
                 placeholder="Contraseña"
                 className="w-[350px] h-[40px] rounded-lg block mt-3 pl-3 text-black "
-                value={formLogin.password}
+                value={formLogin.contrasena}
                 onChange={handleChangeInput}
               />
               <span
@@ -138,7 +138,6 @@ export default function Login() {
               Inicia sesión
             </button>
           </form>
-          <Toaster richColors position="bottom-right" />
         </article>
       </section>
     </main>
