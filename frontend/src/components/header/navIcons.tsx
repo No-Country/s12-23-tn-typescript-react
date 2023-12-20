@@ -3,7 +3,6 @@ import { FaUsers, FaUser, FaBoxes } from "react-icons/fa";
 import { BsCartFill } from "react-icons/bs";
 import { MdDashboard } from "react-icons/md";
 import { Link } from "react-router-dom";
-import React from "react";
 import { useAuthContext } from "../../context/authContext";
 
 export default function NavIcons() {
@@ -26,7 +25,7 @@ export default function NavIcons() {
       <nav className="bg-[#CFE0E5] h-full flex flex-col justify-between">
         <div className=" gap-[1px] flex flex-col">
           {links.map((link, index) => (
-            <React.Fragment key={index}>
+            <div key={index}>
               <Link
                 className={`${
                   window.location.pathname == link.to
@@ -36,7 +35,7 @@ export default function NavIcons() {
                 to={link.to}>
                 {link.icon}
               </Link>
-            </React.Fragment>
+            </div>
           ))}
         </div>
         <button

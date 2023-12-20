@@ -3,8 +3,13 @@ import { FaUsers, FaUser, FaBoxes } from "react-icons/fa";
 import { BsCartFill } from "react-icons/bs";
 import { MdDashboard } from "react-icons/md";
 import { Link } from "react-router-dom";
+import { useAuthContext } from "../../context/authContext";
 
 export default function NavAside() {
+  const { logout } = useAuthContext();
+  const handleLogout = () => {
+    logout();
+  };
   const links = [
     {
       to: "/dashboard",
@@ -53,12 +58,12 @@ export default function NavAside() {
             </>
           ))}
         </div>
-        <Link
-          to={"/"}
+        <button
+          onClick={handleLogout}
           className=" transition-all duration-300 h-16 text-sm cursor-pointer hover:brightness-150 px-4 text-[#344D64] font-bold border-2 border-[#344D64] flex items-center justify-left gap-2">
           <IoExitOutline className=" rotate-180 text-2xl" />
           Salir
-        </Link>
+        </button>
       </nav>
     </aside>
   );

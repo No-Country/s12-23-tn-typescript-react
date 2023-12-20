@@ -7,6 +7,7 @@ import {
 } from "../../services/fetchData";
 import { Link } from "react-router-dom";
 import { animated, useSpring } from "@react-spring/web";
+import { useAuthContext } from "../../context/authContext";
 
 function Number(n: number) {
   const { number } = useSpring({
@@ -19,6 +20,9 @@ function Number(n: number) {
 }
 
 export default function Dashboard() {
+  const { user } = useAuthContext();
+  const nameUser =
+    user.user.rol_id === 1 ? "Administrador" : `${user.user.nombre}`;
   const [quantities, setQuantities] = useState({
     product: [],
     clients: [],
@@ -66,9 +70,9 @@ export default function Dashboard() {
               GESTIÓN DE INVENTARIO
             </h1>
             <p className="text-center text-[#344D64] font-semibold">
-              ¡Bienvenido Administrador! Este es el panel principal del sistema,
+              ¡Bienvenido {nameUser}! Este es el panel principal del sistema,
               aquí podrás encontrar atajos para acceder a los listados del
-              inventario
+              inventario.
             </p>
             <div className="flex justify-around mt-8 max-lg:flex-col gap-x-4 max-lg:items-center">
               <p></p>

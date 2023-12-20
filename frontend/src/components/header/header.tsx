@@ -18,12 +18,7 @@ export default function Header({ stateNav }: any) {
           </Link>
         </div>
         <div className="flex items-center justify-center">
-          <p className="text-xl font-semibold capitalize">
-            {name}
-            <span className="ml-2 text-xl w-6 bg-[#65727C] font-bold h-6 border-2 rounded-full p-2">
-              Os
-            </span>
-          </p>
+          <p className="text-xl font-semibold capitalize">Bienvenido {name}</p>
         </div>
       </header>
     </>

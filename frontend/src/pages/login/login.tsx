@@ -2,10 +2,10 @@ import logo from "/img-login.svg";
 import { MdOutlineMailOutline } from "react-icons/md";
 import { BiShow } from "react-icons/bi";
 import { AiOutlineEyeInvisible } from "react-icons/ai";
-import { Toaster, toast } from "sonner";
 import { useState } from "react";
 import axios from "axios";
 import { useAuthContext } from "../../context/authContext";
+import { toast } from "sonner";
 
 interface IFormLogin {
   email: string;
@@ -62,7 +62,8 @@ export default function Login() {
         login(response.data);
       })
       .catch(function (error) {
-        console.error(error);
+        console.log(error);
+        toast.error("Usuario y/o contraseña incorrecta");
       });
   };
 
@@ -137,7 +138,6 @@ export default function Login() {
               Inicia sesión
             </button>
           </form>
-          <Toaster richColors position="bottom-right" />
         </article>
       </section>
     </main>
