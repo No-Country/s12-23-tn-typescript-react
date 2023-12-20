@@ -77,7 +77,7 @@ function Table({ data, openModal, openModalDelete, searchName }: Props) {
 
       {data.length == 0 ? (
         <div className="flex justify-center items-center flex-col">
-          <img src={"notfound.png"} alt="image-not-found" width={300} />
+          <img src={"../notfound.png"} alt="image-not-found" width={300} />
           <p className="text-center font-bold text-xl">
             Proveedor No encontrado
           </p>

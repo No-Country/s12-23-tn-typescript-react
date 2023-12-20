@@ -60,3 +60,11 @@ export interface Clients {
   address: string
   phone: string
 }
+
+
+export interface Users {
+  id: number
+  nombre: string
+  email: string
+  rol_id: number
+}

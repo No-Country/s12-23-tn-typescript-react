@@ -104,30 +104,40 @@ export default function TableProduct({createProduct}:any) {
     data-testid="loader" color="#344D64" className="max-md:mt-20 flex justify-center m-auto text-4xl"/>
     :<>
     <ManageProducts createProduct={createProduct} searchDataProduct={searchProduct}/>
-    <table className="w-full table-auto border-2 rounded-lg">
-      <thead className='bg-zinc-50 border-b-2 border-zinc-200'>
-        <tr>
-          <th className="p-2 text-sm font-semibold tracking-wide text-left">Nombre</th>
-          <th className="p-2 text-sm font-semibold tracking-wide text-left">Precio</th>
-          <th className="p-2 text-sm font-semibold tracking-wide text-left">Stock</th>
-          <th className="p-2 text-sm font-semibold tracking-wide text-left">Categoria</th>
-          <th className='p-2 text-sm font-semibold tracking-wide '>Editar</th>
-          <th className='p-2 text-sm font-semibold tracking-wide '>Eliminar</th>
-        </tr>
-      </thead>
-      <tbody className="">
-        {products.slice(inicio,fin).map((bebida, index)=>(
-            <tr className={`${index % 2 == 0 ? "bg-gray-100" : "bg-gray-200"}`} key={index}>
-              <TableRowProduct
-              data={bebida}
-              openModalDelete={openModal}
-              openModalEdit={openModalEdit}
-              />
-            </tr>
-          ))     
-        }
-        </tbody>  
-    </table> 
+
+    {products.length == 0 
+    ? 
+              <div className="flex justify-center items-center flex-col">
+              <img src={"../notfound.png"} alt="image-not-found" width={300} />
+              <p className="text-center font-bold text-xl">
+                Producto No encontrado
+              </p>
+            </div>
+    :    <table className="w-full table-auto border-2 rounded-lg">
+    <thead className='bg-zinc-50 border-b-2 border-zinc-200'>
+      <tr>
+        <th className="p-2 text-sm font-semibold tracking-wide text-left">Nombre</th>
+        <th className="p-2 text-sm font-semibold tracking-wide text-left">Precio</th>
+        <th className="p-2 text-sm font-semibold tracking-wide text-left">Stock</th>
+        <th className="p-2 text-sm font-semibold tracking-wide text-left">Categoria</th>
+        <th className='p-2 text-sm font-semibold tracking-wide '>Editar</th>
+        <th className='p-2 text-sm font-semibold tracking-wide '>Eliminar</th>
+      </tr>
+    </thead>
+    <tbody className="">
+      {products.slice(inicio,fin).map((bebida, index)=>(
+          <tr className={`${index % 2 == 0 ? "bg-gray-100" : "bg-gray-200"}`} key={index}>
+            <TableRowProduct
+            data={bebida}
+            openModalDelete={openModal}
+            openModalEdit={openModalEdit}
+            />
+          </tr>
+        ))     
+      }
+      </tbody>  
+  </table> 
+    }
     <div className='bg-zinc-50 border-2 border-zinc-200 text-center flex items-center justify-center text-xl gap-8 bottom-4'>
       <MdKeyboardDoubleArrowLeft onClick={beforeProduct} className="cursor-pointer"/>
       {Array.from({ length: totalPaginas }, (_, index) => (
